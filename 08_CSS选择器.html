@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<!-- ============================================= -->
+<!-- 第 08 课：CSS 选择器 -->
+<!-- ============================================= -->
+<!-- 上节课我们学习了 CSS 基础。这节课我们学习 CSS 选择器。 -->
+
+<!-- ============================================= -->
+<!-- 生活类比 -->
+<!-- ============================================= -->
+<!-- 选择器就像找人的方式——按名字、按班级、按特征。 -->
+<!-- 元素选择器是按"身份"找（所有段落），类选择器是按"标签"找（穿红衣服的人）。 -->
+<!-- ID 选择器是按"身份证号"找（独一无二），优先级最高。 -->
+<!-- 后代选择器是"教室里的学生"，子元素选择器是"直属下级"（不包括孙辈）。 -->
+
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS 选择器</title>
+    <style>
+        body { font-family: "微软雅黑", sans-serif; padding: 20px; }
+
+        /* 基础选择器 */
+        h2 { color: #333; border-bottom: 2px solid #4CAF50; padding-bottom: 5px; }
+
+        /* 元素选择器 */
+        p { color: #666; }
+
+        /* 类选择器 */
+        .highlight { background-color: yellow; padding: 2px 5px; }
+        .box { background-color: #f0f0f0; padding: 15px; margin: 10px 0; border-radius: 5px; }
+
+        /* ID 选择器 */
+        #special { color: red; font-weight: bold; }
+
+        /* 后代选择器 */
+        .container p { color: blue; }
+
+        /* 子元素选择器 */
+        .parent > p { background-color: lightyellow; }
+
+        /* 相邻兄弟选择器 */
+        h3 + p { color: green; }
+
+        /* 通用兄弟选择器 */
+        h4 ~ p { font-style: italic; }
+
+        /* 伪类选择器 */
+        .hover-box {
+            background-color: lightblue;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .hover-box:hover { background-color: lightcoral; }
+
+        /* 伪元素 */
+        .quote::before { content: """; font-size: 24px; color: #999; }
+        .quote::after { content: """; font-size: 24px; color: #999; }
+
+        /* 练习样式 */
+        .exercise { background-color: #f9f9f9; border: 1px solid #ddd; padding: 15px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<!-- ============================================= -->
+<!-- 第一节：基础选择器 -->
+<!-- ============================================= -->
+
+<h1>基础选择器</h1>
+
+<h2>元素选择器</h2>
+<p>这是段落（p 元素选择器）</p>
+
+<h2>类选择器</h2>
+<p class="highlight">这是高亮文字（.highlight）</p>
+
+<h2>ID 选择器</h2>
+<p id="special">这是特殊文字（#special）</p>
+
+<!-- ============================================= -->
+<!-- 第二节：组合选择器 -->
+<!-- ============================================= -->
+
+<h1>组合选择器</h1>
+
+<h2>后代选择器（空格）</h2>
+<div class="container">
+    <p>这是容器内的段落（蓝色）</p>
+    <div>
+        <p>这是嵌套段落（也是蓝色）</p>
+    </div>
+</div>
+
+<h2>子元素选择器（>）</h2>
+<div class="parent">
+    <p>这是直接子元素（有背景色）</p>
+    <div>
+        <p>这是孙元素（没有背景色）</p>
+    </div>
+</div>
+
+<h2>相邻兄弟选择器（+）</h2>
+<h3>标题</h3>
+<p>紧跟标题的段落（绿色）</p>
+<p>第二个段落（不是绿色）</p>
+
+<h2>通用兄弟选择器（~）</h2>
+<h4>标题</h4>
+<p>后面的段落（斜体）</p>
+<p>另一个段落（也是斜体）</p>
+
+<!-- ============================================= -->
+<!-- 第三节：属性选择器 -->
+<!-- ============================================= -->
+
+<h1>属性选择器</h1>
+
+<style>
+    /* 有 title 属性 */
+    [title] { background-color: lightyellow; }
+
+    /* title="重要" */
+    [title="重要"] { color: red; font-weight: bold; }
+
+    /* class 以 "btn" 开头 */
+    [class^="btn"] { padding: 10px 20px; border: none; cursor: pointer; }
+
+    /* class 以 "primary" 结尾 */
+    [class$="primary"] { background-color: #4CAF50; color: white; }
+
+    /* href 包含 "example" */
+    [href*="example"] { color: purple; }
+</style>
+
+<p title="提示">这个段落有 title 属性（黄色背景）</p>
+<p title="重要">这个段落 title="重要"（红色加粗）</p>
+
+<button class="btn-primary">主要按钮</button>
+<button class="btn-secondary">次要按钮</button>
+
+<a href="https://example.com">示例链接（紫色）</a>
+<a href="https://other.com">其他链接</a>
+
+<!-- ============================================= -->
+<!-- 第四节：伪类选择器 -->
+<!-- ============================================= -->
+
+<h1>伪类选择器</h1>
+
+<h2>:hover 悬停</h2>
+<div class="hover-box">鼠标悬停到我身上</div>
+
+<h2>:first-child 和 :last-child</h2>
+<style>
+    .list-demo li:first-child { color: red; }
+    .list-demo li:last-child { color: blue; }
+</style>
+<ul class="list-demo">
+    <li>第一个（红色）</li>
+    <li>第二个</li>
+    <li>第三个</li>
+    <li>最后一个（蓝色）</li>
+</ul>
+
+<h2>:nth-child</h2>
+<style>
+    .stripe-table tr:nth-child(even) { background-color: #f2f2f2; }
+    .stripe-table td { padding: 10px; }
+</style>
+<table class="stripe-table" border="1">
+    <tr><td>行1</td></tr>
+    <tr><td>行2（灰色背景）</td></tr>
+    <tr><td>行3</td></tr>
+    <tr><td>行4（灰色背景）</td></tr>
+</table>
+
+<!-- ============================================= -->
+<!-- 第五节：伪元素 -->
+<!-- ============================================= -->
+
+<h1>伪元素</h1>
+
+<h2>::before 和 ::after</h2>
+<p class="quote">这是引用文字</p>
+
+<h2>::first-letter</h2>
+<style>
+    .first-letter-demo::first-letter { font-size: 2em; color: red; }
+</style>
+<p class="first-letter-demo">这段文字的第一个字会变大变红。</p>
+
+<!-- ============================================= -->
+<!-- 练习题 -->
+<!-- ============================================= -->
+
+<h1>练习题</h1>
+
+<div class="exercise">
+    <h2>练习1：属性选择器实战</h2>
+    <style>
+        .product-tag[data-status="hot"] {
+            background-color: #f44336;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        .product-tag[data-status="new"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        .product-tag[data-status="sale"] {
+            background-color: #FF9800;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+    </style>
+    <p>无线耳机 <span class="product-tag" data-status="hot">热销</span></p>
+    <p>蓝牙音箱 <span class="product-tag" data-status="new">新品</span></p>
+    <p>充电宝 <span class="product-tag" data-status="sale">促销</span></p>
+</div>
+
+<div class="exercise">
+    <h2>练习2：伪类选择器实战</h2>
+    <style>
+        .zebra-list li:nth-child(odd) {
+            background-color: #f0f0f0;
+            padding: 8px 15px;
+        }
+        .zebra-list li:nth-child(even) {
+            background-color: #ffffff;
+            padding: 8px 15px;
+        }
+        .zebra-list li:hover {
+            background-color: #e3f2fd;
+            cursor: pointer;
+        }
+        .zebra-list { list-style: none; padding: 0; }
+    </style>
+    <ul class="zebra-list">
+        <li>HTML — 网页的骨架</li>
+        <li>CSS — 网页的皮肤</li>
+        <li>JavaScript — 网页的灵魂</li>
+        <li>Git — 版本控制工具</li>
+        <li>VS Code — 代码编辑器</li>
+    </ul>
+</div>
+
+<!-- ============================================= -->
+<!-- 课程总结 -->
+<!-- ============================================= -->
+<!--
+核心收获：
+- 基础选择器：元素（p）、类（.class）、ID（#id）
+- 组合选择器：后代（空格）、子元素（>）、兄弟（+、~）
+- 伪类（:hover）和伪元素（::before、::after）增强交互效果
+
+常见陷阱：
+- ID 选择器优先级高于类选择器，但不应滥用 ID
+- 后代选择器（空格）和子元素选择器（>）的区别
+- 伪元素用双冒号 ::，伪类用单冒号 :
+
+下节课预告：
+- 学习 CSS 布局，用 Flexbox 和 Grid 排列元素
+-->
+
+<!-- ============================================= -->
+<!-- 恭喜完成 -->
+<!-- ============================================= -->
+<p style="color: green; font-weight: bold;">
+  恭喜你完成了第 08 课：CSS 选择器！<br>
+  下节课我们将学习 CSS 布局。
+</p>
+
+</body>
+</html>

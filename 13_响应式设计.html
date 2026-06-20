@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<!-- ============================================= -->
+<!-- 第 13 课：响应式设计 -->
+<!-- ============================================= -->
+<!-- 上节课我们学习了事件处理。这节课我们学习响应式设计。 -->
+
+<!-- ============================================= -->
+<!-- 生活类比 -->
+<!-- ============================================= -->
+<!-- 响应式就像变形金刚，不同设备变不同形态。 -->
+<!-- 媒体查询 @media 就像"如果屏幕小于768px，就执行这套方案"。 -->
+<!-- 视口 viewport 就像窗户的大小——手机是小窗户，电脑是大窗户。 -->
+<!-- 响应式图片就像橡皮筋，能根据容器大小自动伸缩。 -->
+
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>响应式设计</title>
+    <style>
+        body { font-family: "微软雅黑", sans-serif; margin: 0; padding: 20px; }
+        h2 { color: #333; border-bottom: 2px solid #4CAF50; padding-bottom: 5px; }
+        .demo { background-color: #f5f5f5; padding: 20px; margin: 10px 0; border-radius: 5px; }
+        .exercise { background-color: #f9f9f9; border: 1px solid #ddd; padding: 15px; margin: 10px 0; }
+
+        /* 响应式盒子 */
+        .responsive-box {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        /* 手机 (< 768px) */
+        @media (max-width: 768px) {
+            .responsive-box {
+                background-color: #f44336;
+            }
+            .responsive-box::after {
+                content: "（手机）";
+            }
+        }
+
+        /* 平板 (769px - 1024px) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .responsive-box {
+                background-color: #FF9800;
+            }
+            .responsive-box::after {
+                content: "（平板）";
+            }
+        }
+
+        /* 桌面 (> 1024px) */
+        @media (min-width: 1025px) {
+            .responsive-box::after {
+                content: "（桌面）";
+            }
+        }
+
+        /* 响应式网格 */
+        .responsive-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .grid-item {
+            background-color: #2196F3;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 1024px) {
+            .responsive-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .responsive-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 响应式图片 */
+        .responsive-img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* 响应式导航 */
+        .responsive-nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .responsive-nav a {
+            float: left;
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        .responsive-nav .icon {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .responsive-nav a:not(:first-child) {
+                display: none;
+            }
+            .responsive-nav a.icon {
+                float: right;
+                display: block;
+            }
+            .responsive-nav.responsive a {
+                float: none;
+                display: block;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============================================= -->
+<!-- 第一节：视口（Viewport） -->
+<!-- ============================================= -->
+
+<h1>视口（Viewport）</h1>
+
+<!--
+    【视口 meta 标签】
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    width=device-width：宽度等于设备宽度
+    initial-scale=1.0：初始缩放比例
+-->
+
+<p>视口 meta 标签让网页在手机上正确显示。</p>
+
+<!-- ============================================= -->
+<!-- 第二节：媒体查询 -->
+<!-- ============================================= -->
+
+<h1>媒体查询</h1>
+
+<div class="demo">
+    <div class="responsive-box">调整浏览器窗口大小，观察颜色变化</div>
+</div>
+
+<!-- ============================================= -->
+<!-- 第三节：响应式布局 -->
+<!-- ============================================= -->
+
+<h1>响应式布局</h1>
+
+<div class="demo">
+    <div class="responsive-grid">
+        <div class="grid-item">1</div>
+        <div class="grid-item">2</div>
+        <div class="grid-item">3</div>
+        <div class="grid-item">4</div>
+        <div class="grid-item">5</div>
+        <div class="grid-item">6</div>
+    </div>
+</div>
+
+<!-- ============================================= -->
+<!-- 第四节：响应式图片 -->
+<!-- ============================================= -->
+
+<h1>响应式图片</h1>
+
+<div class="demo">
+    <img src="https://via.placeholder.com/800x400" alt="响应式图片" class="responsive-img">
+    <p>图片会自动适应容器宽度</p>
+</div>
+
+<!-- ============================================= -->
+<!-- 第五节：响应式导航 -->
+<!-- ============================================= -->
+
+<h1>响应式导航</h1>
+
+<div class="demo">
+    <div class="responsive-nav" id="myNav">
+        <a href="#">首页</a>
+        <a href="#">产品</a>
+        <a href="#">关于</a>
+        <a href="#">联系</a>
+        <a href="javascript:void(0);" class="icon" onclick="toggleNav()">☰</a>
+    </div>
+</div>
+
+<script>
+    function toggleNav() {
+        let nav = document.getElementById('myNav');
+        nav.classList.toggle('responsive');
+    }
+</script>
+
+<!-- ============================================= -->
+<!-- 练习题 -->
+<!-- ============================================= -->
+
+<h1>练习题</h1>
+
+<div class="exercise">
+    <h2>练习1：响应式卡片</h2>
+    <style>
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: white;
+        }
+        @media (max-width: 1024px) {
+            .card-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .card-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+    <div class="card-grid">
+        <div class="card"><h3>卡片1</h3><p>内容...</p></div>
+        <div class="card"><h3>卡片2</h3><p>内容...</p></div>
+        <div class="card"><h3>卡片3</h3><p>内容...</p></div>
+    </div>
+</div>
+
+<!-- ============================================= -->
+<!-- 课程总结 -->
+<!-- ============================================= -->
+<!--
+核心收获：
+- viewport meta 标签是移动端适配的第一步
+- @media 媒体查询根据屏幕宽度应用不同样式
+- 响应式三件套：max-width: 100% 图片、Grid/Flex 自适应布局、媒体查询断点
+
+常见陷阱：
+- 忘记写 viewport meta 标签导致手机上页面缩放异常
+- 媒体查询断点设置不合理（建议参考 768px/1024px/1200px）
+- 用固定像素宽度而非百分比/rem/vw 导致无法自适应
+
+下节课预告：
+- 综合运用所学知识，完成一个完整的个人主页实战项目
+-->
+
+<!-- ============================================= -->
+<!-- 恭喜完成 -->
+<!-- ============================================= -->
+<p style="color: green; font-weight: bold;">
+  恭喜你完成了第 13 课：响应式设计！<br>
+  下节课我们将完成个人主页实战项目。
+</p>
+
+</body>
+</html>

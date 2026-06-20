@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<!-- ============================================= -->
+<!-- 第 12 课：事件处理 -->
+<!-- ============================================= -->
+<!-- 上节课我们学习了 JavaScript 基础。这节课我们学习事件处理。 -->
+
+<!-- ============================================= -->
+<!-- 生活类比 -->
+<!-- ============================================= -->
+<!-- 事件监听就像保安，时刻关注发生了什么。 -->
+<!-- addEventListener 就是给保安下达指令："如果有人按门铃，就开门"。 -->
+<!-- 事件冒泡就像水里的气泡，从最底层（子元素）一直冒到最顶层（父元素）。 -->
+<!-- 事件委托就像物业管家——不给每户单独配保安，而是在大门口统一管理。 -->
+
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>事件处理</title>
+    <style>
+        body { font-family: "微软雅黑", sans-serif; padding: 20px; }
+        h2 { color: #333; border-bottom: 2px solid #4CAF50; padding-bottom: 5px; }
+        .demo { background-color: #f5f5f5; padding: 20px; margin: 10px 0; border-radius: 5px; }
+        .box { width: 100px; height: 100px; background-color: #4CAF50; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; margin: 10px; }
+        button { background-color: #4CAF50; color: white; border: none; padding: 10px 20px; margin: 5px; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        input { padding: 8px; margin: 5px; border: 1px solid #ddd; border-radius: 4px; }
+        #output { background-color: #333; color: #0f0; padding: 15px; font-family: monospace; margin: 10px 0; min-height: 50px; }
+        .exercise { background-color: #f9f9f9; border: 1px solid #ddd; padding: 15px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<!-- ============================================= -->
+<!-- 第一节：事件基础 -->
+<!-- ============================================= -->
+
+<h1>事件基础</h1>
+
+<!--
+    【什么是事件？】
+    事件就是用户或浏览器的动作
+    比如：点击、悬停、输入、提交
+
+    【事件处理方式】
+    1. HTML 属性：onclick="代码"
+    2. DOM 属性：element.onclick = function
+    3. addEventListener：推荐方式
+-->
+
+<h2>HTML 属性方式</h2>
+<div class="demo">
+    <button onclick="alert('点击了按钮！')">点击我</button>
+</div>
+
+<h2>addEventListener 方式（推荐）</h2>
+<div class="demo">
+    <button id="btn1">点击我（addEventListener）</button>
+</div>
+
+<script>
+    document.getElementById('btn1').addEventListener('click', function() {
+        alert('addEventListener 方式');
+    });
+</script>
+
+<!-- ============================================= -->
+<!-- 第二节：鼠标事件 -->
+<!-- ============================================= -->
+
+<h1>鼠标事件</h1>
+
+<div class="demo">
+    <div class="box" id="mouseBox"
+         onmouseover="this.style.backgroundColor='lightcoral'"
+         onmouseout="this.style.backgroundColor='#4CAF50'"
+         onmousedown="this.style.backgroundColor='darkblue'"
+         onmouseup="this.style.backgroundColor='lightcoral'"
+         onclick="this.innerText='被点击了！'">
+        鼠标事件
+    </div>
+</div>
+
+<!-- ============================================= -->
+<!-- 第三节：键盘事件 -->
+<!-- ============================================= -->
+
+<h1>键盘事件</h1>
+
+<div class="demo">
+    <input type="text" id="keyInput" placeholder="在这里输入...">
+    <div id="output">按键信息...</div>
+</div>
+
+<script>
+    let input = document.getElementById('keyInput');
+    let output = document.getElementById('output');
+
+    input.addEventListener('keydown', function(e) {
+        output.innerText = '按下: ' + e.key + ' (keyCode: ' + e.keyCode + ')';
+    });
+
+    input.addEventListener('keyup', function(e) {
+        output.innerText = '松开: ' + e.key;
+    });
+</script>
+
+<!-- ============================================= -->
+<!-- 第四节：表单事件 -->
+<!-- ============================================= -->
+
+<h1>表单事件</h1>
+
+<div class="demo">
+    <form id="myForm">
+        <input type="text" id="nameInput" placeholder="请输入姓名">
+        <button type="submit">提交</button>
+    </form>
+    <div id="formOutput"></div>
+</div>
+
+<script>
+    document.getElementById('myForm').addEventListener('submit', function(e) {
+        e.preventDefault();  // 阻止默认提交
+        let name = document.getElementById('nameInput').value;
+        document.getElementById('formOutput').innerText = '提交的姓名: ' + name;
+    });
+
+    document.getElementById('nameInput').addEventListener('focus', function() {
+        this.style.borderColor = 'blue';
+    });
+
+    document.getElementById('nameInput').addEventListener('blur', function() {
+        this.style.borderColor = '#ddd';
+    });
+</script>
+
+<!-- ============================================= -->
+<!-- 第五节：事件对象 -->
+<!-- ============================================= -->
+
+<h1>事件对象</h1>
+
+<div class="demo">
+    <div class="box" id="eventObjBox" style="width: 200px; height: 100px;">
+        点击查看事件对象
+    </div>
+    <div id="eventOutput"></div>
+</div>
+
+<script>
+    document.getElementById('eventObjBox').addEventListener('click', function(e) {
+        let output = '事件类型: ' + e.type + '\n';
+        output += '目标元素: ' + e.target.id + '\n';
+        output += '鼠标位置: (' + e.clientX + ', ' + e.clientY + ')';
+        document.getElementById('eventOutput').innerText = output;
+    });
+</script>
+
+<!-- ============================================= -->
+<!-- 第六节：事件冒泡和捕获 -->
+<!-- ============================================= -->
+
+<h1>事件冒泡和捕获</h1>
+
+<div class="demo">
+    <div id="outer" style="background-color: lightblue; padding: 20px;" onclick="alert('外层被点击')">
+        外层
+        <div id="inner" style="background-color: lightyellow; padding: 10px; margin-top: 10px;" onclick="event.stopPropagation(); alert('内层被点击')">
+            内层（点击会阻止冒泡）
+        </div>
+    </div>
+</div>
+
+<!-- ============================================= -->
+<!-- 第七节：事件委托 -->
+<!-- ============================================= -->
+
+<h1>事件委托</h1>
+
+<!--
+    【事件委托】
+    把事件绑定到父元素，利用冒泡处理子元素事件
+    好处：动态添加的元素也能响应事件
+-->
+
+<div class="demo">
+    <ul id="todoList">
+        <li data-id="1">任务1</li>
+        <li data-id="2">任务2</li>
+        <li data-id="3">任务3</li>
+    </ul>
+    <button id="addTask">添加任务</button>
+</div>
+
+<script>
+    let list = document.getElementById('todoList');
+    let count = 3;
+
+    // 事件委托：绑定到父元素
+    list.addEventListener('click', function(e) {
+        if (e.target.tagName === 'LI') {
+            alert('点击了: ' + e.target.innerText + ' (ID: ' + e.target.dataset.id + ')');
+        }
+    });
+
+    // 动态添加元素
+    document.getElementById('addTask').addEventListener('click', function() {
+        count++;
+        let li = document.createElement('li');
+        li.dataset.id = count;
+        li.innerText = '任务' + count;
+        list.appendChild(li);
+    });
+</script>
+
+<!-- ============================================= -->
+<!-- 练习题 -->
+<!-- ============================================= -->
+
+<h1>练习题</h1>
+
+<div class="exercise">
+    <h2>练习1：键盘快捷键检测</h2>
+    <p>试试按下键盘上的按键：</p>
+    <input type="text" id="shortcutInput" placeholder="在这里按任意键..." style="width: 300px;">
+    <p id="shortcutOutput" style="font-size: 18px; margin-top: 10px;"></p>
+</div>
+
+<script>
+    document.getElementById('shortcutInput').addEventListener('keydown', function(e) {
+        let output = '按键: ' + e.key;
+        if (e.ctrlKey) output += ' (Ctrl 被按下)';
+        if (e.shiftKey) output += ' (Shift 被按下)';
+        if (e.altKey) output += ' (Alt 被按下)';
+        document.getElementById('shortcutOutput').innerText = output;
+    });
+</script>
+
+<div class="exercise">
+    <h2>练习2：颜色选择器</h2>
+    <input type="color" id="colorPicker" value="#4CAF50">
+    <div id="colorBox" style="width: 100px; height: 100px; background-color: #4CAF50; margin-top: 10px;"></div>
+</div>
+
+<script>
+    document.getElementById('colorPicker').addEventListener('input', function() {
+        document.getElementById('colorBox').style.backgroundColor = this.value;
+    });
+</script>
+
+<!-- ============================================= -->
+<!-- 课程总结 -->
+<!-- ============================================= -->
+<!--
+核心收获：
+- addEventListener 是绑定事件的推荐方式（比 onclick 更灵活）
+- 事件对象 e 包含鼠标位置、按键信息、目标元素等
+- 事件委托：绑定到父元素，利用冒泡处理动态添加的子元素
+
+常见陷阱：
+- 表单提交忘记 e.preventDefault() 导致页面刷新
+- 事件冒泡导致父元素事件被意外触发（用 stopPropagation 阻止）
+- 在循环中绑定事件时闭包陷阱（用 let 或 forEach 解决）
+
+下节课预告：
+- 学习响应式设计，让网页在手机和电脑上都能完美显示
+-->
+
+<!-- ============================================= -->
+<!-- 恭喜完成 -->
+<!-- ============================================= -->
+<p style="color: green; font-weight: bold;">
+  恭喜你完成了第 12 课：事件处理！<br>
+  下节课我们将学习响应式设计。
+</p>
+
+</body>
+</html>

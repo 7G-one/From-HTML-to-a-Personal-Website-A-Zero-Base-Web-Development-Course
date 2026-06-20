@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<!-- ============================================= -->
+<!-- 第 14 课：实战项目 —— 个人主页 -->
+<!-- ============================================= -->
+<!-- 这是最后一课。我们将综合运用 HTML、CSS、JavaScript，完成一个完整的个人主页。 -->
+
+<!-- ============================================= -->
+<!-- 生活类比 -->
+<!-- ============================================= -->
+<!-- 项目实战就像期末考试，把这学期学的所有知识都用上。 -->
+<!-- HTML 负责搭骨架，CSS 负责装修，JavaScript 负责智能交互。 -->
+<!-- 响应式设计就像一栋会变形的房子——手机来了变小屋，电脑来了变别墅。 -->
+<!-- 完成这个项目，你就能自豪地说："我会做网页了！" -->
+
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的个人主页</title>
+    <style>
+        /* 全局样式 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "微软雅黑", sans-serif; line-height: 1.6; color: #333; }
+        a { text-decoration: none; color: inherit; }
+        img { max-width: 100%; }
+
+        /* 导航栏 */
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo { font-size: 24px; font-weight: bold; }
+        .nav-links a { color: white; margin-left: 20px; transition: color 0.3s; }
+        .nav-links a:hover { color: #4CAF50; }
+
+        /* 头部区域 */
+        .hero {
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            color: white;
+            padding: 150px 20px 100px;
+            text-align: center;
+        }
+        .hero h1 { font-size: 48px; margin-bottom: 20px; }
+        .hero p { font-size: 20px; margin-bottom: 30px; }
+        .hero-btn {
+            background-color: white;
+            color: #4CAF50;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+        .hero-btn:hover { transform: scale(1.05); }
+
+        /* 通用区域 */
+        .section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+            color: #333;
+        }
+
+        /* 关于我 */
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        .about-image {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .about-text { flex: 1; }
+        .about-text h3 { font-size: 24px; margin-bottom: 15px; }
+        .about-text p { margin-bottom: 15px; }
+
+        /* 技能 */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        .skill-card {
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .skill-card:hover { transform: translateY(-5px); }
+        .skill-icon { font-size: 48px; margin-bottom: 15px; }
+        .skill-card h3 { margin-bottom: 10px; }
+
+        /* 作品集 */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .portfolio-item {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .portfolio-item:hover { transform: translateY(-5px); }
+        .portfolio-image { height: 200px; background-color: #ddd; }
+        .portfolio-info { padding: 20px; }
+        .portfolio-info h3 { margin-bottom: 10px; }
+
+        /* 联系方式 */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover { background-color: #45a049; }
+
+        /* 页脚 */
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        .social-links { margin-top: 15px; }
+        .social-links a {
+            color: white;
+            margin: 0 10px;
+            font-size: 20px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 32px; }
+            .about-content { flex-direction: column; text-align: center; }
+            .about-image { width: 200px; height: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 导航栏 -->
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-logo">我的主页</div>
+        <div class="nav-links">
+            <a href="#about">关于我</a>
+            <a href="#skills">技能</a>
+            <a href="#portfolio">作品</a>
+            <a href="#contact">联系</a>
+        </div>
+    </div>
+</nav>
+
+<!-- 头部区域 -->
+<header class="hero" id="home">
+    <h1>你好，我是小明</h1>
+    <p>一名热爱编程的开发者</p>
+    <a href="#contact" class="hero-btn">联系我</a>
+</header>
+
+<!-- 关于我 -->
+<section class="section" id="about">
+    <h2 class="section-title">关于我</h2>
+    <div class="about-content">
+        <img src="https://via.placeholder.com/300" alt="我的照片" class="about-image">
+        <div class="about-text">
+            <h3>前端开发工程师</h3>
+            <p>我是一名热爱编程的开发者，专注于 Web 前端开发。</p>
+            <p>熟练掌握 HTML、CSS、JavaScript，以及各种前端框架。</p>
+            <p>喜欢学习新技术，解决复杂问题。</p>
+        </div>
+    </div>
+</section>
+
+<!-- 技能 -->
+<section class="section" id="skills" style="background-color: #f5f5f5;">
+    <h2 class="section-title">我的技能</h2>
+    <div class="skills-grid">
+        <div class="skill-card">
+            <div class="skill-icon">🌐</div>
+            <h3>HTML</h3>
+            <p>精通 HTML5 语义化标签</p>
+        </div>
+        <div class="skill-card">
+            <div class="skill-icon">🎨</div>
+            <h3>CSS</h3>
+            <p>精通 CSS3、Flexbox、Grid</p>
+        </div>
+        <div class="skill-card">
+            <div class="skill-icon">⚡</div>
+            <h3>JavaScript</h3>
+            <p>精通 ES6+、DOM 操作</p>
+        </div>
+        <div class="skill-card">
+            <div class="skill-icon">📱</div>
+            <h3>响应式设计</h3>
+            <p>移动端优先的开发理念</p>
+        </div>
+    </div>
+</section>
+
+<!-- 作品集 -->
+<section class="section" id="portfolio">
+    <h2 class="section-title">我的作品</h2>
+    <div class="portfolio-grid">
+        <div class="portfolio-item">
+            <div class="portfolio-image" style="background-color: #4CAF50;"></div>
+            <div class="portfolio-info">
+                <h3>项目一</h3>
+                <p>响应式企业官网</p>
+            </div>
+        </div>
+        <div class="portfolio-item">
+            <div class="portfolio-image" style="background-color: #2196F3;"></div>
+            <div class="portfolio-info">
+                <h3>项目二</h3>
+                <p>在线商城</p>
+            </div>
+        </div>
+        <div class="portfolio-item">
+            <div class="portfolio-image" style="background-color: #FF9800;"></div>
+            <div class="portfolio-info">
+                <h3>项目三</h3>
+                <p>个人博客</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 联系方式 -->
+<section class="section" id="contact" style="background-color: #f5f5f5;">
+    <h2 class="section-title">联系我</h2>
+    <div class="contact-form">
+        <form id="contactForm">
+            <div class="form-group">
+                <label for="name">姓名</label>
+                <input type="text" id="name" placeholder="请输入姓名" required>
+            </div>
+            <div class="form-group">
+                <label for="email">邮箱</label>
+                <input type="email" id="email" placeholder="请输入邮箱" required>
+            </div>
+            <div class="form-group">
+                <label for="message">留言</label>
+                <textarea id="message" rows="5" placeholder="请输入留言" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">发送</button>
+        </form>
+    </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>&copy; 2024 我的个人主页</p>
+    <div class="social-links">
+        <a href="#">GitHub</a>
+        <a href="#">微博</a>
+        <a href="#">邮箱</a>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script>
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // 表单提交
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('感谢您的留言！我会尽快回复。');
+        this.reset();
+    });
+</script>
+
+<!-- ============================================= -->
+<!-- 练习题 -->
+<!-- ============================================= -->
+
+<!-- 【练习1：深色模式切换】 -->
+<!-- 给主页添加一个深色模式切换按钮 -->
+<!-- 提示：用 JavaScript 切换 body 的 class，CSS 定义 .dark-mode 的样式 -->
+<!-- 关键：document.body.classList.toggle('dark-mode') -->
+
+<!-- 【练习2：用 Grid 重构作品集】 -->
+<!-- 把作品集布局从 Flexbox 改为 CSS Grid -->
+<!-- 提示：display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); -->
+<!-- 关键：Grid 的 auto-fit 可以自动响应容器宽度 -->
+
+<!-- 【练习3：回到顶部按钮】 -->
+<!-- 给页面添加一个"回到顶部"按钮，滚动超过 300px 时显示 -->
+<!-- 提示：window.addEventListener('scroll', ...) 监听滚动 -->
+<!-- 关键：element.scrollIntoView({ behavior: 'smooth' }) 平滑滚动 -->
+
+<!-- ============================================= -->
+<!-- 练习参考答案 -->
+<!-- ============================================= -->
+
+<!-- 练习1 参考：深色模式 -->
+<button onclick="document.body.classList.toggle('dark-mode')" style="position:fixed;top:10px;right:10px;padding:8px 16px;cursor:pointer;">
+  🌙 切换深色模式
+</button>
+<style>
+  .dark-mode { background: #1a1a1a; color: #f0f0f0; }
+  .dark-mode .card { background: #2d2d2d; }
+</style>
+
+<!-- 练习2 参考：Grid 重构 -->
+<style>
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+</style>
+
+<!-- 练习3 参考：回到顶部 -->
+<button onclick="window.scrollTo({top:0,behavior:'smooth'})"
+        style="position:fixed;bottom:20px;right:20px;padding:10px;display:none;"
+        id="backToTop">
+  ⬆ 回到顶部
+</button>
+<script>
+  window.addEventListener('scroll', function() {
+    document.getElementById('backToTop').style.display =
+      window.scrollY > 300 ? 'block' : 'none';
+  });
+</script>
+
+<!-- ============================================= -->
+<!-- 课程总结 -->
+<!-- ============================================= -->
+<!--
+核心收获：
+- 完整网页 = HTML 结构 + CSS 样式 + JavaScript 行为
+- Flexbox + Grid 组合使用实现复杂布局
+- 响应式设计确保在各种设备上都能正常使用
+
+常见陷阱：
+- 样式写在标签上（应该用 class + 外部样式表）
+- 忘记设置 box-sizing: border-box 导致宽度计算错误
+- 固定定位（position: fixed）元素遮挡其他内容
+
+恭喜你完成了全部 HTML/CSS/JavaScript 入门课程！
+-->
+
+<!-- ============================================= -->
+<!-- 恭喜完成 -->
+<!-- ============================================= -->
+<p style="color: green; font-weight: bold;">
+  恭喜你完成了第 14 课：实战项目 —— 个人主页！<br>
+  你已经完成了全部 HTML/CSS/JavaScript 入门课程，继续加油！
+</p>
+
+</body>
+</html>

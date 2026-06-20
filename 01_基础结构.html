@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<!-- ============================================= -->
+<!-- 第 01 课：HTML 基础结构 -->
+<!-- ============================================= -->
+<!-- 上节课我们认识了 HTML 和基本标签。这节课我们深入学习文档结构。 -->
+
+<!-- ============================================= -->
+<!-- 生活类比 -->
+<!-- ============================================= -->
+<!-- DOCTYPE 就像房产证，告诉浏览器"这是合法建筑"。 -->
+<!-- html 标签是整栋房子，head 是门牌号和说明书，body 是实际居住的空间。 -->
+<!-- 没有 DOCTYPE，浏览器就像没有房产证的房子，可能被当成违建（怪异模式）。 -->
+<!-- 语义化标签就像房间的功能牌：厨房、卧室、客厅，一目了然。 -->
+
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML 基础结构</title>
+
+    <!--
+        【head 标签的作用】
+        head 包含网页的"元信息"（不显示在页面上）
+        - charset：字符编码
+        - viewport：视口设置（手机适配）
+        - title：网页标题
+        - style：CSS 样式
+        - script：JavaScript 代码
+        - link：外部资源
+    -->
+</head>
+<body>
+
+<!-- ============================================= -->
+<!-- 第一节：HTML 文档结构 -->
+<!-- ============================================= -->
+
+<h1>HTML 文档结构</h1>
+
+<!--
+    【标准 HTML 结构】
+
+    <!DOCTYPE html>        声明文档类型（HTML5）
+    <html>                 根元素
+        <head>             头部（元信息）
+            <meta>         元信息
+            <title>        标题
+        </head>
+        <body>             主体（显示内容）
+            ...
+        </body>
+    </html>
+-->
+
+<p>每个 HTML 文件都必须有这个基本结构。</p>
+
+<!-- ============================================= -->
+<!-- 第二节：DOCTYPE 声明 -->
+<!-- ============================================= -->
+
+<h1>DOCTYPE 声明</h1>
+
+<!--
+    【DOCTYPE 的作用】
+    告诉浏览器"这是 HTML5 文档"
+    必须放在第一行
+-->
+
+<!-- 正确 -->
+<!-- <!DOCTYPE html> -->
+
+<!-- 错误（旧版本） -->
+<!-- <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"> -->
+
+<p>HTML5 的 DOCTYPE 很简单：&lt;!DOCTYPE html&gt;</p>
+
+<!-- ============================================= -->
+<!-- 第三节：html 标签 -->
+<!-- ============================================= -->
+
+<h1>html 标签</h1>
+
+<!--
+    【html 标签】
+    是整个网页的"根元素"
+    所有内容都放在 html 标签里面
+
+    lang="zh-CN" 表示页面语言是中文
+-->
+
+<!-- ============================================= -->
+<!-- 第四节：head 标签 -->
+<!-- ============================================= -->
+
+<h1>head 标签</h1>
+
+<!--
+    【head 包含的内容】
+    1. meta：元信息
+    2. title：网页标题
+    3. style：CSS 样式
+    4. link：外部资源
+    5. script：JavaScript
+-->
+
+<!-- meta 标签示例 -->
+<!-- <meta charset="UTF-8"> 字符编码 -->
+<!-- <meta name="viewport" content="width=device-width"> 手机适配 -->
+<!-- <meta name="description" content="网页描述"> SEO描述 -->
+<!-- <meta name="keywords" content="关键词"> SEO关键词 -->
+
+<!-- ============================================= -->
+<!-- 第五节：body 标签 -->
+<!-- ============================================= -->
+
+<h1>body 标签</h1>
+
+<!--
+    【body 包含的内容】
+    所有显示在页面上的内容都放在 body 里
+    - 标题（h1-h6）
+    - 段落（p）
+    - 图片（img）
+    - 链接（a）
+    - 列表（ul, ol）
+    - 表格（table）
+    - 表单（form）
+    - 等等...
+-->
+
+<p>你现在看到的内容都在 body 标签里。</p>
+
+<!-- ============================================= -->
+<!-- 第六节：注释 -->
+<!-- ============================================= -->
+
+<h1>注释</h1>
+
+<!--
+    【HTML 注释】
+    注释是给人看的，浏览器会忽略
+    语法：&lt;!-- 注释内容 --&gt;
+
+    注释的作用：
+    1. 解释代码
+    2. 临时隐藏代码
+    3. 标记待办事项
+-->
+
+<!-- 这是注释，不会显示在页面上 -->
+<p>这段文字会显示。</p>
+
+<!-- ============================================= -->
+<!-- 第七节：块级元素和行内元素 -->
+<!-- ============================================= -->
+
+<h1>块级元素和行内元素</h1>
+
+<!--
+    【块级元素（Block）】
+    - 独占一行
+    - 可以设置宽高
+    - 例如：div, p, h1-h6, ul, ol, table, form
+
+    【行内元素（Inline）】
+    - 不换行
+    - 不能设置宽高
+    - 例如：span, a, strong, em, img, input
+-->
+
+<h2>块级元素示例</h2>
+<div style="background-color: lightblue; padding: 10px; margin: 5px;">
+    这是 div（块级元素）
+</div>
+<div style="background-color: lightgreen; padding: 10px; margin: 5px;">
+    这是另一个 div（独占一行）
+</div>
+
+<h2>行内元素示例</h2>
+<p>
+    这是段落，里面有<span style="color: red;">span（行内元素）</span>
+    和<strong>strong（行内元素）</strong>
+</p>
+
+<!-- ============================================= -->
+<!-- 第八节：div 和 span -->
+<!-- ============================================= -->
+
+<h1>div 和 span</h1>
+
+<!--
+    【div】
+    - 块级容器
+    - 用于布局和分组
+    - 没有语义
+
+    【span】
+    - 行内容器
+    - 用于包裹文字
+    - 没有语义
+-->
+
+<div style="background-color: #f0f0f0; padding: 15px; border: 1px solid #ddd;">
+    <h3>这是一个 div 容器</h3>
+    <p>可以包含任何内容</p>
+    <span style="color: blue;">这是 span</span>
+</div>
+
+<!-- ============================================= -->
+<!-- 第九节：语义化标签 -->
+<!-- ============================================= -->
+
+<h1>语义化标签</h1>
+
+<!--
+    【语义化标签】
+    有明确含义的标签
+    有利于 SEO 和可访问性
+-->
+
+<header style="background-color: #333; color: white; padding: 20px;">
+    <h2>header：网页头部</h2>
+</header>
+
+<nav style="background-color: #666; color: white; padding: 10px;">
+    <a href="#" style="color: white;">nav：导航栏</a>
+</nav>
+
+<main style="padding: 20px;">
+    <article style="background-color: #f9f9f9; padding: 15px; margin: 10px 0;">
+        <h3>article：文章</h3>
+        <p>这是文章内容</p>
+    </article>
+
+    <section style="background-color: #e9e9e9; padding: 15px; margin: 10px 0;">
+        <h3>section：章节</h3>
+        <p>这是章节内容</p>
+    </section>
+
+    <aside style="background-color: #d9d9d9; padding: 15px; margin: 10px 0;">
+        <h3>aside：侧边栏</h3>
+        <p>这是侧边栏内容</p>
+    </aside>
+</main>
+
+<footer style="background-color: #333; color: white; padding: 20px;">
+    <h2>footer：网页底部</h2>
+</footer>
+
+<!-- ============================================= -->
+<!-- 练习题 -->
+<!-- ============================================= -->
+
+<h1>练习题</h1>
+
+<!--
+    练习1：创建一个完整的 HTML 页面
+        - 包含 DOCTYPE、html、head、body
+        - 设置标题为"我的第一个网页"
+        - 设置字符编码为 UTF-8
+
+    练习2：使用语义化标签
+        - 创建一个博客页面结构
+        - 包含 header、nav、main、article、footer
+
+    练习3：块级和行内元素
+        - 创建一个包含 div 和 span 的页面
+        - 观察它们的显示效果
+-->
+
+<h2>练习1：完整页面结构</h2>
+<pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="zh-CN"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;我的第一个网页&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;欢迎来到我的网页&lt;/h1&gt;
+    &lt;p&gt;这是内容&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<h2>练习2：博客页面结构</h2>
+<header style="background-color: #4CAF50; color: white; padding: 20px;">
+    <h1>我的博客</h1>
+</header>
+<nav style="background-color: #333; padding: 10px;">
+    <a href="#" style="color: white; margin-right: 15px;">首页</a>
+    <a href="#" style="color: white; margin-right: 15px;">文章</a>
+    <a href="#" style="color: white;">关于</a>
+</nav>
+<main style="padding: 20px;">
+    <article style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px;">
+        <h2>第一篇文章</h2>
+        <p>这是文章内容...</p>
+    </article>
+    <article style="border: 1px solid #ddd; padding: 15px;">
+        <h2>第二篇文章</h2>
+        <p>这是文章内容...</p>
+    </article>
+</main>
+<footer style="background-color: #333; color: white; padding: 20px; text-align: center;">
+    <p>&copy; 2024 我的博客</p>
+</footer>
+
+<!-- ============================================= -->
+<!-- 课程总结 -->
+<!-- ============================================= -->
+<!--
+核心收获：
+- HTML 文档必须有 DOCTYPE 声明、html、head、body 四大基本结构
+- head 标签包含元信息（charset、viewport、title），body 包含可见内容
+- 语义化标签（header、nav、main、article、footer）让网页结构更清晰
+
+常见陷阱：
+- 忘记写 <!DOCTYPE html> 导致浏览器进入怪异模式
+- meta charset 写错位置（必须在 head 的最前面）
+- 滥用 div 而不使用语义化标签
+
+下节课预告：
+- 学习各种文本标签，让网页内容更丰富
+-->
+
+<!-- ============================================= -->
+<!-- 恭喜完成 -->
+<!-- ============================================= -->
+<p style="color: green; font-weight: bold;">
+  恭喜你完成了第 01 课：HTML 基础结构！<br>
+  下节课我们将学习各种文本标签。
+</p>
+
+</body>
+</html>

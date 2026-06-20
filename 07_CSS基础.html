@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<!-- ============================================= -->
+<!-- 第 07 课：CSS 基础 -->
+<!-- ============================================= -->
+<!-- 上节课我们学习了表单。这节课我们进入 CSS 的世界。 -->
+
+<!-- ============================================= -->
+<!-- 生活类比 -->
+<!-- ============================================= -->
+<!-- HTML 是房子的结构（墙、门、窗），CSS 是装修（颜色、家具、灯光）。 -->
+<!-- 选择器就像遥控器，告诉 CSS "我要控制哪个元素"。 -->
+<!-- 盒子模型就像快递盒——内容是商品，padding 是填充物，border 是纸箱，margin 是盒子之间的间距。 -->
+<!-- 伪类就像"当...的时候"——鼠标悬停时变色，就像门铃响了灯自动亮。 -->
+
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS 基础</title>
+
+    <!--
+        【什么是 CSS？】
+        CSS = Cascading Style Sheets（层叠样式表）
+
+        HTML 负责"内容"（写了什么）
+        CSS 负责"样式"（长什么样）
+
+        【CSS 的比喻】
+        HTML 是房子的结构（墙、门、窗）
+        CSS 是房子的装修（颜色、大小、位置）
+    -->
+
+    <!-- 内部样式表 -->
+    <style>
+        /* 这是 CSS 注释 */
+
+        /* =============================================
+           第一节：CSS 基本语法
+           ============================================= */
+
+        /*
+            【CSS 语法】
+            选择器 {
+                属性: 值;
+                属性: 值;
+            }
+
+            选择器：选中要美化的元素
+            属性：要修改的样式
+            值：样式的值
+        */
+
+        /* 选中所有 h1 元素 */
+        h1 {
+            color: blue;            /* 文字颜色 */
+            font-size: 32px;        /* 字体大小 */
+            text-align: center;     /* 文字居中 */
+        }
+
+        /* 选中所有 p 元素 */
+        p {
+            color: #333;            /* 深灰色 */
+            line-height: 1.6;       /* 行高 */
+            font-size: 16px;        /* 字体大小 */
+        }
+
+        /* =============================================
+           第二节：颜色
+           ============================================= */
+
+        /*
+            【CSS 颜色表示】
+            1. 颜色名：red, blue, green...
+            2. 十六进制：#FF0000, #00FF00...
+            3. RGB：rgb(255, 0, 0)
+            4. RGBA：rgba(255, 0, 0, 0.5)  带透明度
+        */
+
+        .color-demo {
+            /* 颜色名 */
+            color: red;
+
+            /* 十六进制 */
+            background-color: #FFFF00;  /* 黄色背景 */
+
+            /* RGB */
+            border: 2px solid rgb(0, 0, 255);  /* 蓝色边框 */
+        }
+
+        /* =============================================
+           第三节：字体
+           ============================================= */
+
+        /*
+            【字体属性】
+            font-family：字体
+            font-size：大小
+            font-weight：粗细
+            font-style：样式
+        */
+
+        .font-demo {
+            font-family: "微软雅黑", "Microsoft YaHei", sans-serif;
+            font-size: 18px;
+            font-weight: bold;      /* 加粗 */
+            font-style: italic;     /* 斜体 */
+        }
+
+        /* =============================================
+           第四节：文本
+           ============================================= */
+
+        /*
+            【文本属性】
+            color：颜色
+            text-align：对齐
+            text-decoration：装饰
+            text-indent：缩进
+            line-height：行高
+        */
+
+        .text-demo {
+            color: #666;
+            text-align: center;         /* 居中 */
+            text-decoration: underline;  /* 下划线 */
+            text-indent: 2em;           /* 首行缩进2个字 */
+            line-height: 2;             /* 2倍行高 */
+        }
+
+        /* =============================================
+           第五节：背景
+           ============================================= */
+
+        /*
+            【背景属性】
+            background-color：背景色
+            background-image：背景图
+            background-repeat：重复方式
+            background-position：位置
+        */
+
+        .bg-demo {
+            background-color: #f0f0f0;
+            background-image: url('https://via.placeholder.com/100');
+            background-repeat: no-repeat;
+            background-position: center;
+            padding: 20px;
+        }
+
+        /* =============================================
+           第六节：边框
+           ============================================= */
+
+        /*
+            【边框属性】
+            border-width：宽度
+            border-style：样式
+            border-color：颜色
+            border-radius：圆角
+        */
+
+        .border-demo {
+            border: 2px solid blue;     /* 简写 */
+            border-radius: 10px;        /* 圆角 */
+            padding: 10px;
+        }
+
+        /* =============================================
+           第七节：内边距和外边距
+           ============================================= */
+
+        /*
+            【盒子模型】
+            content：内容
+            padding：内边距（内容到边框的距离）
+            border：边框
+            margin：外边距（边框外面的距离）
+        */
+
+        .box-demo {
+            width: 200px;
+            height: 100px;
+            background-color: lightblue;
+            padding: 20px;              /* 内边距 */
+            margin: 20px;               /* 外边距 */
+            border: 2px solid navy;
+        }
+
+        /* =============================================
+           第八节：显示方式
+           ============================================= */
+
+        /*
+            【display 属性】
+            block：块级元素（独占一行）
+            inline：行内元素（不换行）
+            inline-block：行内块（不换行，可设宽高）
+            none：隐藏
+        */
+
+        .block-demo {
+            display: block;
+            background-color: lightyellow;
+            margin: 5px;
+            padding: 5px;
+        }
+
+        .inline-demo {
+            display: inline;
+            background-color: lightgreen;
+            padding: 5px;
+        }
+
+        /* =============================================
+           第九节：伪类
+           ============================================= */
+
+        /*
+            【伪类】
+            :hover  鼠标悬停
+            :active 鼠标按下
+            :focus  获得焦点
+            :first-child 第一个子元素
+            :last-child 最后一个子元素
+        */
+
+        .hover-demo {
+            background-color: lightblue;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .hover-demo:hover {
+            background-color: lightcoral;
+        }
+
+        /* 练习样式 */
+        .exercise {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============================================= -->
+<!-- 第一节：CSS 基本语法 -->
+<!-- ============================================= -->
+
+<h1>CSS 基本语法</h1>
+
+<p>CSS 让网页变得漂亮！</p>
+
+<div class="color-demo">
+    这是颜色演示
+</div>
+
+<!-- ============================================= -->
+<!-- 第二节：字体演示 -->
+<!-- ============================================= -->
+
+<h1>字体演示</h1>
+
+<p class="font-demo">这是字体演示：微软雅黑、18px、加粗、斜体</p>
+
+<!-- ============================================= -->
+<!-- 第三节：文本演示 -->
+<!-- ============================================= -->
+
+<h1>文本演示</h1>
+
+<p class="text-demo">
+    这是文本演示：居中、下划线、首行缩进、2倍行高。
+    CSS 可以控制文字的各种样式。
+</p>
+
+<!-- ============================================= -->
+<!-- 第四节：背景演示 -->
+<!-- ============================================= -->
+
+<h1>背景演示</h1>
+
+<div class="bg-demo">
+    这是有背景的盒子
+</div>
+
+<!-- ============================================= -->
+<!-- 第五节：边框演示 -->
+<!-- ============================================= -->
+
+<h1>边框演示</h1>
+
+<div class="border-demo">
+    这是有边框和圆角的盒子
+</div>
+
+<!-- ============================================= -->
+<!-- 第六节：盒子模型 -->
+<!-- ============================================= -->
+
+<h1>盒子模型</h1>
+
+<div class="box-demo">
+    这是一个盒子<br>
+    内边距 20px<br>
+    外边距 20px<br>
+    边框 2px
+</div>
+
+<!-- ============================================= -->
+<!-- 第七节：显示方式 -->
+<!-- ============================================= -->
+
+<h1>显示方式</h1>
+
+<span class="block-demo">这是 block</span>
+<span class="block-demo">这是 block</span>
+
+<span class="inline-demo">这是 inline</span>
+<span class="inline-demo">这是 inline</span>
+
+<!-- ============================================= -->
+<!-- 第八节：伪类 -->
+<!-- ============================================= -->
+
+<h1>伪类</h1>
+
+<div class="hover-demo">
+    鼠标悬停到我身上试试！
+</div>
+
+<!-- ============================================= -->
+<!-- 练习题 -->
+<!-- ============================================= -->
+
+<h1>练习题</h1>
+
+<!--
+    练习1：创建一个卡片
+        - 有边框和圆角
+        - 有内边距
+        - 鼠标悬停时变色
+
+    练习2：创建一个导航栏
+        - 水平排列
+        - 有背景色
+        - 鼠标悬停时高亮
+
+    练习3：创建一个按钮
+        - 有背景色
+        - 有圆角
+        - 鼠标悬停时变大
+-->
+
+<div class="exercise">
+    <h2>练习1：卡片</h2>
+    <div style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; background-color: white; cursor: pointer;"
+         onmouseover="this.style.backgroundColor='#f0f0f0'"
+         onmouseout="this.style.backgroundColor='white'">
+        <h3>卡片标题</h3>
+        <p>这是卡片内容，鼠标悬停会变色。</p>
+    </div>
+</div>
+
+<div class="exercise">
+    <h2>练习2：导航栏</h2>
+    <div style="background-color: #333; overflow: hidden;">
+        <a href="#" style="float: left; color: white; padding: 14px 20px; text-decoration: none;">首页</a>
+        <a href="#" style="float: left; color: white; padding: 14px 20px; text-decoration: none;">关于</a>
+        <a href="#" style="float: left; color: white; padding: 14px 20px; text-decoration: none;">联系</a>
+    </div>
+</div>
+
+<div class="exercise">
+    <h2>练习3：按钮</h2>
+    <button style="background-color: #4CAF50; color: white; border: none; padding: 15px 32px;
+                   text-align: center; font-size: 16px; border-radius: 8px; cursor: pointer;
+                   transition: transform 0.3s;"
+            onmouseover="this.style.transform='scale(1.1)'"
+            onmouseout="this.style.transform='scale(1)'">
+        点击我
+    </button>
+</div>
+
+<!-- ============================================= -->
+<!-- 课程总结 -->
+<!-- ============================================= -->
+<!--
+核心收获：
+- CSS 语法：选择器 { 属性: 值; }
+- 盒子模型：content + padding + border + margin
+- display 属性控制元素的显示方式：block/inline/inline-block/none
+
+常见陷阱：
+- 忘记写分号导致样式失效（每个属性声明后必须有 ;）
+- 内联样式优先级高于外部样式表（慎用 !important）
+- 混淆 padding（内边距）和 margin（外边距）
+
+下节课预告：
+- 学习 CSS 选择器，精准控制页面样式
+-->
+
+<!-- ============================================= -->
+<!-- 恭喜完成 -->
+<!-- ============================================= -->
+<p style="color: green; font-weight: bold;">
+  恭喜你完成了第 07 课：CSS 基础！<br>
+  下节课我们将学习 CSS 选择器。
+</p>
+
+</body>
+</html>

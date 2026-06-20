@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<!-- ============================================= -->
+<!-- 第 06 课：表单（完整版） -->
+<!-- ============================================= -->
+<!-- 上节课我们学习了表格。这节课我们学习表单。 -->
+<!-- 本课内容：表单基础 → HTML5新类型 → datalist → fieldset分组 -->
+<!--         → 无障碍 → 验证 → GET/POST → 实战注册表单 -->
+
+<!-- ============================================= -->
+<!-- 生活类比 -->
+<!-- ============================================= -->
+<!-- 表单就像填表格，用户输入信息提交给服务器。 -->
+<!-- input 就是表格里的空格，让你填写姓名、电话、地址。 -->
+<!-- 单选按钮就像选择题——只能选一个；复选框就像多选题——可以选多个。 -->
+<!-- 提交按钮就像把填好的表格交给柜台工作人员。 -->
+<!-- datalist 就像下拉菜单的"搜索建议"，给你推荐但你也能自己写。 -->
+<!-- fieldset 就像表格里的分区，把"个人信息"和"联系方式"分开。 -->
+
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>表单</title>
+    <style>
+        body { font-family: "微软雅黑", sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+        label { display: block; margin: 10px 0 5px; font-weight: bold; }
+        input, select, textarea { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        .radio-group, .checkbox-group { margin: 10px 0; }
+        .radio-group label, .checkbox-group label { display: inline; margin-right: 15px; font-weight: normal; }
+    </style>
+</head>
+<body>
+
+<!-- ============================================= -->
+<!-- 第一节：表单基础 -->
+<!-- ============================================= -->
+
+<h1>表单基础</h1>
+
+<!--
+    【表单的作用】
+    表单用于收集用户输入
+    比如：登录、注册、搜索
+
+    【form 标签】
+    <form action="提交地址" method="提交方式">
+        表单内容
+    </form>
+
+    method：
+        GET：数据在URL中（不安全，有长度限制）
+        POST：数据在请求体中（安全，无长度限制）
+-->
+
+<form>
+    <!-- ============================================= -->
+    <!-- 第二节：文本输入 -->
+    <!-- ============================================= -->
+
+    <h2>文本输入</h2>
+
+    <!-- 文本输入 -->
+    <label for="username">用户名：</label>
+    <input type="text" id="username" name="username" placeholder="请输入用户名" required>
+
+    <!-- 密码输入 -->
+    <label for="password">密码：</label>
+    <input type="password" id="password" name="password" placeholder="请输入密码" required>
+
+    <!-- 邮箱输入 -->
+    <label for="email">邮箱：</label>
+    <input type="email" id="email" name="email" placeholder="请输入邮箱">
+
+    <!-- 电话输入 -->
+    <label for="phone">电话：</label>
+    <input type="tel" id="phone" name="phone" placeholder="请输入电话">
+
+    <!-- 数字输入 -->
+    <label for="age">年龄：</label>
+    <input type="number" id="age" name="age" min="1" max="150" value="18">
+
+    <!-- URL 输入 -->
+    <label for="website">网站：</label>
+    <input type="url" id="website" name="website" placeholder="https://">
+
+    <!-- 搜索输入 -->
+    <label for="search">搜索：</label>
+    <input type="search" id="search" name="search" placeholder="搜索...">
+
+    <!-- ============================================= -->
+    <!-- 第三节：选择输入 -->
+    <!-- ============================================= -->
+
+    <h2>选择输入</h2>
+
+    <!-- 单选按钮 -->
+    <div class="radio-group">
+        <label>性别：</label>
+        <input type="radio" name="gender" value="male" id="male">
+        <label for="male">男</label>
+        <input type="radio" name="gender" value="female" id="female">
+        <label for="female">女</label>
+    </div>
+
+    <!-- 复选框 -->
+    <div class="checkbox-group">
+        <label>爱好：</label>
+        <input type="checkbox" name="hobby" value="reading" id="reading">
+        <label for="reading">阅读</label>
+        <input type="checkbox" name="hobby" value="coding" id="coding">
+        <label for="coding">编程</label>
+        <input type="checkbox" name="hobby" value="gaming" id="gaming">
+        <label for="gaming">游戏</label>
+    </div>
+
+    <!-- 下拉选择 -->
+    <label for="city">城市：</label>
+    <select id="city" name="city">
+        <option value="">请选择</option>
+        <option value="beijing">北京</option>
+        <option value="shanghai">上海</option>
+        <option value="guangzhou">广州</option>
+        <option value="shenzhen">深圳</option>
+    </select>
+
+    <!-- ============================================= -->
+    <!-- 第四节：其他输入 -->
+    <!-- ============================================= -->
+
+    <h2>其他输入</h2>
+
+    <!-- 日期 -->
+    <label for="birthday">生日：</label>
+    <input type="date" id="birthday" name="birthday">
+
+    <!-- 时间 -->
+    <label for="meeting">会议时间：</label>
+    <input type="time" id="meeting" name="meeting">
+
+    <!-- 颜色 -->
+    <label for="color">喜欢的颜色：</label>
+    <input type="color" id="color" name="color" value="#4CAF50">
+
+    <!-- 范围滑块 -->
+    <label for="volume">音量：</label>
+    <input type="range" id="volume" name="volume" min="0" max="100" value="50">
+
+    <!-- 文件上传 -->
+    <label for="avatar">头像：</label>
+    <input type="file" id="avatar" name="avatar">
+
+    <!-- 文本域 -->
+    <label for="bio">简介：</label>
+    <textarea id="bio" name="bio" rows="4" placeholder="介绍一下自己..."></textarea>
+</form>
+
+<!-- ============================================= -->
+<!-- 第五节：HTML5 新输入类型详解 -->
+<!-- ============================================= -->
+
+<h2>HTML5 新输入类型详解</h2>
+
+<!--
+    【HTML5 新增的 input 类型】
+    HTML5 引入了许多专门的输入类型，让表单更智能：
+    - 浏览器会根据 type 自动显示合适的输入界面
+    - 移动端会弹出对应的键盘（如数字键盘、邮箱键盘）
+    - 部分类型自带基础验证
+-->
+
+<form>
+    <!-- 颜色选择器：弹出取色板 -->
+    <label for="color2">选择颜色：</label>
+    <input type="color" id="color2" name="color2" value="#ff0000">
+    <!-- value 是默认颜色，格式是十六进制 #RRGGBB -->
+
+    <!-- 电话号码：移动端弹出数字键盘 -->
+    <label for="phone2">手机号码：</label>
+    <input type="tel" id="phone2" name="phone2"
+           pattern="[0-9]{11}"
+           placeholder="请输入11位手机号">
+    <!-- pattern 属性用正则表达式验证格式 -->
+    <!-- [0-9]{11} 表示必须是11位数字 -->
+
+    <!-- URL 输入：自动验证是否是合法网址 -->
+    <label for="website2">个人主页：</label>
+    <input type="url" id="website2" name="website2"
+           placeholder="https://example.com">
+    <!-- 浏览器会检查是否以 http:// 或 https:// 开头 -->
+
+    <!-- 数字输入：带范围限制和步长 -->
+    <label for="score">考试分数：</label>
+    <input type="number" id="score" name="score"
+           min="0" max="100" step="5" value="60">
+    <!-- min：最小值 -->
+    <!-- max：最大值 -->
+    <!-- step：步长（每次点击增减的值） -->
+    <!-- 这里只能输入 0, 5, 10, 15, ... 100 -->
+
+    <!-- 日期时间 -->
+    <label for="birthday2">出生日期：</label>
+    <input type="date" id="birthday2" name="birthday2">
+    <!-- 浏览器会显示日期选择器 -->
+
+    <label for="meeting2">会议时间：</label>
+    <input type="time" id="meeting2" name="meeting2">
+    <!-- 浏览器会显示时间选择器 -->
+
+    <!-- 范围滑块：拖动选择数值 -->
+    <label for="volume2">音量调节：</label>
+    <input type="range" id="volume2" name="volume2"
+           min="0" max="100" value="50">
+    <!-- 默认没有显示数值，可以用 JS 显示当前值 -->
+</form>
+
+<!-- ============================================= -->
+<!-- 第六节：datalist 自动完成下拉 -->
+<!-- ============================================= -->
+
+<h2>datalist 自动完成下拉</h2>
+
+<!--
+    【datalist 的作用】
+    <datalist> 给输入框提供一个选项列表
+    用户可以从中选择，也可以自己输入
+    就像搜索引擎的"搜索建议"一样
+
+    【与 select 的区别】
+    - select：必须从列表中选择，不能自己输入
+    - datalist：既可以选择，也可以自己输入
+-->
+
+<form>
+    <!-- 城市选择：用户可以从列表选，也可以自己输入 -->
+    <label for="city2">选择城市：</label>
+    <input list="cities" id="city2" name="city2" placeholder="请选择或输入城市">
+    <!-- list 属性关联 datalist 的 id -->
+    <datalist id="cities">
+        <!-- 每个 option 就是一个建议选项 -->
+        <option value="北京">
+        <option value="上海">
+        <option value="广州">
+        <option value="深圳">
+        <option value="杭州">
+        <option value="成都">
+    </datalist>
+
+    <!-- 编程语言选择 -->
+    <label for="language">编程语言：</label>
+    <input list="languages" id="language" name="language" placeholder="请选择或输入语言">
+    <datalist id="languages">
+        <option value="JavaScript">
+        <option value="Python">
+        <option value="Java">
+        <option value="C++">
+        <option value="HTML/CSS">
+        <option value="Go">
+    </datalist>
+</form>
+
+<!-- ============================================= -->
+<!-- 第七节：fieldset 和 legend 分组 -->
+<!-- ============================================= -->
+
+<h2>fieldset 和 legend 分组</h2>
+
+<!--
+    【fieldset 和 legend 的作用】
+    当表单内容很多时，可以用 <fieldset> 将相关字段分组
+    <legend> 是分组的标题
+
+    【好处】
+    - 让表单结构更清晰
+    - 用户一眼就知道哪些字段属于同一类
+    - 提升可访问性（屏幕阅读器能识别分组）
+-->
+
+<form>
+    <fieldset>
+        <!-- legend 是这个分组的标题 -->
+        <legend>个人信息</legend>
+
+        <label for="p_name">姓名：</label>
+        <input type="text" id="p_name" name="name" placeholder="请输入姓名">
+
+        <label for="p_age">年龄：</label>
+        <input type="number" id="p_age" name="age" min="1" max="150">
+
+        <label for="p_gender">性别：</label>
+        <select id="p_gender" name="gender">
+            <option value="">请选择</option>
+            <option value="male">男</option>
+            <option value="female">女</option>
+        </select>
+    </fieldset>
+
+    <fieldset>
+        <legend>联系方式</legend>
+
+        <label for="p_email">邮箱：</label>
+        <input type="email" id="p_email" name="email" placeholder="请输入邮箱">
+
+        <label for="p_phone">手机：</label>
+        <input type="tel" id="p_phone" name="phone" placeholder="请输入手机号">
+
+        <label for="p_address">地址：</label>
+        <input type="text" id="p_address" name="address" placeholder="请输入地址">
+    </fieldset>
+</form>
+
+<!-- ============================================= -->
+<!-- 第八节：表单无障碍（Accessibility） -->
+<!-- ============================================= -->
+
+<h2>表单无障碍</h2>
+
+<!--
+    【什么是无障碍？】
+    无障碍（Accessibility，简称 a11y）让残障人士也能使用网页
+    比如：盲人用屏幕阅读器"听"网页
+
+    【label 的 for 属性】
+    for 属性关联 input 的 id
+    好处：
+    1. 点击 label 文字，光标自动聚焦到输入框
+    2. 屏幕阅读器能正确朗读"这是什么输入框"
+
+    【aria 属性】
+    ARIA（Accessible Rich Internet Applications）
+    给屏幕阅读器提供额外信息
+-->
+
+<form>
+    <!-- 正确做法：label 用 for 关联 input 的 id -->
+    <label for="a11y_name">用户名：</label>
+    <input type="text" id="a11y_name" name="username" required>
+
+    <!-- 也可以用隐式关联：把 input 包在 label 里 -->
+    <label>
+        密码：
+        <input type="password" name="password" required>
+    </label>
+
+    <!-- aria 属性：给屏幕阅读器额外信息 -->
+    <label for="a11y_email">邮箱地址：</label>
+    <input type="email" id="a11y_email" name="email"
+           aria-label="邮箱地址"
+           aria-required="true"
+           aria-describedby="email-hint">
+    <!-- aria-label：输入框的描述（当 label 不够清楚时用） -->
+    <!-- aria-required：告诉屏幕阅读器这是必填项 -->
+    <!-- aria-describedby：关联一段描述文字的 id -->
+    <small id="email-hint" style="color: gray;">我们不会分享你的邮箱</small>
+
+    <!-- 错误提示的无障碍写法 -->
+    <label for="a11y_phone">手机号：</label>
+    <input type="tel" id="a11y_phone" name="phone"
+           aria-invalid="true"
+           aria-errormessage="phone-error">
+    <!-- aria-invalid：告诉屏幕阅读器输入无效 -->
+    <!-- aria-errormessage：关联错误提示的 id -->
+    <span id="phone-error" style="color: red;" role="alert">
+        请输入正确的11位手机号
+    </span>
+    <!-- role="alert" 让屏幕阅读器立即朗读这个错误 -->
+</form>
+
+<!-- ============================================= -->
+<!-- 第九节：表单验证详解 -->
+<!-- ============================================= -->
+
+<h2>表单验证详解</h2>
+
+<!--
+    【HTML5 内置验证】
+    不用写 JavaScript，HTML5 就能验证用户输入
+
+    【常用验证属性】
+    required     — 必填字段
+    minlength    — 最小长度（用于 text, password 等）
+    maxlength    — 最大长度
+    min          — 最小值（用于 number, date 等）
+    max          — 最大值
+    pattern      — 正则表达式验证格式
+    type         — 某些 type 自带验证（如 email, url）
+-->
+
+<form>
+    <!-- required：必填项 -->
+    <label for="v_name">姓名（必填）：</label>
+    <input type="text" id="v_name" name="name" required
+           minlength="2" maxlength="20"
+           placeholder="2-20个字符">
+    <!-- required：不填就不能提交 -->
+    <!-- minlength="2"：至少2个字符 -->
+    <!-- maxlength="20"：最多20个字符 -->
+
+    <!-- 邮箱验证：type="email" 自动验证格式 -->
+    <label for="v_email">邮箱（必填）：</label>
+    <input type="email" id="v_email" name="email" required
+           placeholder="example@email.com">
+    <!-- 必须包含 @ 符号 -->
+
+    <!-- 手机号验证：用 pattern 自定义格式 -->
+    <label for="v_phone">手机号（中国大陆）：</label>
+    <input type="tel" id="v_phone" name="phone"
+           pattern="1[3-9]\d{9}"
+           placeholder="1开头的11位数字">
+    <!-- pattern="1[3-9]\d{9}" -->
+    <!-- 1    — 以1开头 -->
+    <!-- [3-9] — 第二位是3-9 -->
+    <!-- \d{9} — 后面跟9位数字 -->
+
+    <!-- 数字范围验证 -->
+    <label for="v_age">年龄：</label>
+    <input type="number" id="v_age" name="age"
+           min="1" max="150" required
+           placeholder="1-150">
+
+    <!-- URL 验证：type="url" 自动验证格式 -->
+    <label for="v_url">个人网站：</label>
+    <input type="url" id="v_url" name="url"
+           placeholder="https://example.com">
+    <!-- 必须以 http:// 或 https:// 开头 -->
+
+    <button type="submit">提交</button>
+</form>
+
+<!-- ============================================= -->
+<!-- 第十节：GET 和 POST 的区别 -->
+<!-- ============================================= -->
+
+<h2>GET 和 POST 的区别</h2>
+
+<!--
+    【GET 方式】
+    - 数据附加在 URL 后面：/search?q=关键词
+    - 数据在地址栏可见（不安全）
+    - 有长度限制（通常 2048 字符）
+    - 适合：搜索、查询、获取数据
+    - 可以被浏览器缓存、收藏
+
+    【POST 方式】
+    - 数据在请求体中（不在 URL 里）
+    - 数据在地址栏不可见（相对安全）
+    - 没有长度限制
+    - 适合：登录、注册、提交文件
+    - 不会被浏览器缓存
+
+    【简单记忆】
+    GET  = 读取数据（查资料）
+    POST = 提交数据（交作业）
+-->
+
+<!-- GET 示例：搜索 -->
+<form method="GET" action="/search">
+    <label for="search_q">搜索：</label>
+    <input type="text" id="search_q" name="q" placeholder="输入关键词">
+    <button type="submit">搜索</button>
+    <!-- 提交后 URL 会变成：/search?q=关键词 -->
+</form>
+
+<!-- POST 示例：注册 -->
+<form method="POST" action="/register">
+    <label for="reg_user">用户名：</label>
+    <input type="text" id="reg_user" name="username">
+    <label for="reg_pass">密码：</label>
+    <input type="password" id="reg_pass" name="password">
+    <button type="submit">注册</button>
+    <!-- 提交后 URL 不变，数据在请求体中发送 -->
+</form>
+
+<!-- ============================================= -->
+<!-- 第十一节：实战——完整注册表单 -->
+<!-- ============================================= -->
+
+<h2>实战：完整注册表单</h2>
+
+<!--
+    【这个表单综合运用了前面学到的所有知识】
+    - fieldset + legend 分组
+    - label 的 for 属性关联（无障碍）
+    - HTML5 新输入类型（color, date, tel, email, number）
+    - 表单验证（required, pattern, minlength）
+    - POST 方法提交
+-->
+
+<form method="POST" action="/register">
+    <fieldset>
+        <legend>用户注册</legend>
+
+        <!-- 基本信息 -->
+        <label for="reg_name">姓名：</label>
+        <input type="text" id="reg_name" name="name"
+               required minlength="2" maxlength="20"
+               placeholder="请输入真实姓名">
+
+        <label for="reg_email">邮箱：</label>
+        <input type="email" id="reg_email" name="email"
+               required
+               placeholder="example@email.com">
+
+        <label for="reg_phone">手机号：</label>
+        <input type="tel" id="reg_phone" name="phone"
+               pattern="1[3-9]\d{9}"
+               placeholder="11位手机号">
+
+        <label for="reg_password">密码：</label>
+        <input type="password" id="reg_password" name="password"
+               required minlength="6" maxlength="20"
+               placeholder="6-20位密码">
+
+        <label for="reg_confirm">确认密码：</label>
+        <input type="password" id="reg_confirm" name="confirm_password"
+               required
+               placeholder="再次输入密码">
+    </fieldset>
+
+    <fieldset>
+        <legend>个人资料</legend>
+
+        <label for="reg_birthday">生日：</label>
+        <input type="date" id="reg_birthday" name="birthday">
+
+        <label for="reg_gender">性别：</label>
+        <select id="reg_gender" name="gender">
+            <option value="">请选择</option>
+            <option value="male">男</option>
+            <option value="female">女</option>
+            <option value="other">其他</option>
+        </select>
+
+        <label for="reg_color">喜欢的颜色：</label>
+        <input type="color" id="reg_color" name="color" value="#3498db">
+
+        <label for="reg_bio">个人简介：</label>
+        <textarea id="reg_bio" name="bio" rows="3"
+                  placeholder="简单介绍一下自己..."></textarea>
+    </fieldset>
+
+    <fieldset>
+        <legend>服务条款</legend>
+
+        <div style="margin: 10px 0;">
+            <input type="checkbox" id="reg_agree" name="agree" required>
+            <label for="reg_agree" style="display: inline; font-weight: normal;">
+                我已阅读并同意《用户服务协议》和《隐私政策》
+            </label>
+        </div>
+    </fieldset>
+
+    <button type="submit">注册</button>
+    <button type="reset">重置</button>
+</form>
+
+<!-- ============================================= -->
+<!-- 练习题 -->
+<!-- ============================================= -->
+
+    <h2>按钮</h2>
+
+    <button type="submit">提交</button>
+    <button type="reset">重置</button>
+    <button type="button" onclick="alert('点击了按钮！')">普通按钮</button>
+</form>
+
+<!-- ============================================= -->
+<!-- 练习题 -->
+<!-- ============================================= -->
+
+<h1>练习题</h1>
+
+<h2>练习1：登录表单</h2>
+<form>
+    <label>用户名：</label>
+    <input type="text" placeholder="请输入用户名" required>
+    <label>密码：</label>
+    <input type="password" placeholder="请输入密码" required>
+    <div>
+        <input type="checkbox" id="remember">
+        <label for="remember" style="display: inline;">记住我</label>
+    </div>
+    <button type="submit">登录</button>
+</form>
+
+<h2>练习2：注册表单</h2>
+<form>
+    <label>用户名：</label>
+    <input type="text" placeholder="请输入用户名" required>
+    <label>邮箱：</label>
+    <input type="email" placeholder="请输入邮箱" required>
+    <label>密码：</label>
+    <input type="password" placeholder="请输入密码" required>
+    <label>确认密码：</label>
+    <input type="password" placeholder="请再次输入密码" required>
+    <div>
+        <input type="checkbox" id="agree" required>
+        <label for="agree" style="display: inline;">我同意服务协议</label>
+    </div>
+    <button type="submit">注册</button>
+</form>
+
+<!-- ============================================= -->
+<!-- 课程总结 -->
+<!-- ============================================= -->
+<!--
+核心收获：
+- form 标签包裹所有输入元素，action 指定提交地址
+- input 的 type 决定输入类型：text/password/email/number/date/range/color/file
+- label 的 for 属性关联 input 的 id，提升可访问性
+- HTML5 新类型：color(取色器)、tel(电话)、url(网址)、number(数字带范围)
+- datalist 提供自动完成建议列表，用户可选可输入
+- fieldset + legend 让表单分组更清晰
+- 验证属性：required(必填)、pattern(正则)、minlength/maxlength(长度)、min/max(范围)
+- GET 数据在URL，适合查询；POST 数据在请求体，适合提交
+- aria 属性提升无障碍体验，让残障人士也能使用表单
+
+常见陷阱：
+- 忘记给 input 设置 name 属性（提交时数据无法被识别）
+- 单选按钮的 name 不一致导致无法互斥选择
+- 忘记设置 required 验证必填字段
+- label 的 for 和 input 的 id 不匹配（无障碍失效）
+- GET 提交敏感数据（密码会出现在 URL 中）
+
+下节课预告：
+- 进入 CSS 的世界，学习如何让网页变得漂亮
+-->
+
+<!-- ============================================= -->
+<!-- 恭喜完成 -->
+<!-- ============================================= -->
+<p style="color: green; font-weight: bold;">
+  恭喜你完成了第 06 课：表单！<br>
+  下节课我们将进入 CSS 的世界。
+</p>
+
+</body>
+</html>

@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<!-- ============================================= -->
+<!-- 第 11 课：JavaScript 基础 -->
+<!-- ============================================= -->
+<!-- 上节课我们学习了 CSS 动画。这节课我们进入 JavaScript 的世界。 -->
+
+<!-- ============================================= -->
+<!-- 生活类比 -->
+<!-- ============================================= -->
+<!-- JS 就像大脑，让网页能"思考"和"反应"。 -->
+<!-- HTML 是骨架，CSS 是皮肤，JavaScript 是灵魂——没有它，网页只是静态的画。 -->
+<!-- 变量就像贴了标签的盒子，可以往里面放东西，也可以随时换掉。 -->
+<!-- 函数就像自动售货机——投入参数，吐出结果，不用每次都重新造轮子。 -->
+<!-- 数组就像传送带上的快递盒，可以按编号找、批量处理、按条件筛选。 -->
+<!-- 对象就像身份证——一个东西有多个属性（姓名、年龄、地址）。 -->
+
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript 基础</title>
+
+    <style>
+        body {
+            font-family: "微软雅黑", sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .demo-box {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        #output {
+            background-color: #333;
+            color: #0f0;
+            padding: 15px;
+            font-family: monospace;
+            margin: 10px 0;
+            min-height: 50px;
+            white-space: pre-wrap;
+        }
+
+        .result-area {
+            background-color: #333;
+            color: #0f0;
+            padding: 15px;
+            font-family: monospace;
+            margin: 10px 0;
+            min-height: 50px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+<h1>JavaScript 基础</h1>
+
+<!--
+    【什么是 JavaScript？】
+    JavaScript 是一种编程语言，它可以让网页"动起来"！
+
+    HTML：结构（骨架）
+    CSS：样式（皮肤）
+    JavaScript：行为（灵魂）
+
+    这节课我们学习 JS 最核心的 6 大基础：
+    1. 变量与数据类型 —— 存储数据
+    2. 函数与箭头函数 —— 封装逻辑
+    3. 对象与解构赋值 —— 描述事物
+    4. 数组与高阶方法 —— 批量处理
+    5. DOM 操作 —— 操控页面
+    6. 类型转换与运算 —— 数据处理细节
+-->
+
+<!-- ============================================= -->
+<!-- 第一节：变量与数据类型 -->
+<!-- ============================================= -->
+<!--
+    【变量是什么？】
+    变量就像一个贴了标签的盒子，你可以往里面放东西。
+    "let box = '苹果'" 的意思就是：准备一个叫 box 的盒子，里面放一个苹果。
+
+    三种声明方式：
+    - let：推荐使用，块级作用域，值可以修改
+    - const：常量，声明时必须赋值，不能重新赋值
+    - var：旧语法，函数作用域，有变量提升，不推荐使用
+
+    【块级作用域 vs 函数作用域】
+    用 {} 包起来的代码块就是"块"（if、for、函数体都是块）。
+    let/const 在块内声明的变量，出了块就访问不到。
+    var 在块内声明的变量，出了块还能访问到——这是 bug 的温床。
+
+    【暂时性死区（TDZ）】
+    let/const 声明的变量，在声明语句之前访问会报错。
+    虽然变量在"物理上"已经存在了，但 JS 禁止你在声明前使用它。
+    这就像快递还没到驿站，你在系统里查不到——不是没有，是还没到。
+-->
+
+<h2>一、变量与数据类型</h2>
+
+<div class="demo-box">
+    <button onclick="demoVariables()">演示变量</button>
+    <div id="var-output" class="result-area"></div>
+</div>
+
+<script>
+    // ========== let / const / var 的区别 ==========
+
+    // var：旧语法，函数作用域，有"变量提升"
+    // 变量提升 = 声明被悄悄移到作用域顶部，但赋值没有
+    // 下面这行代码，JS 实际上会先声明 var x（值为 undefined），再执行 x = 10
+    var oldWay = "我是 var 声明的";
+
+    // let：推荐使用，块级作用域
+    // 块级作用域 = 只在当前 {} 内有效
+    let modernWay = "我是 let 声明的";
+
+    // const：常量，声明时必须赋值，之后不能重新赋值
+    // 注意：如果 const 存的是对象/数组，对象的属性是可以修改的（地址没变）
+    const PI = 3.14159;
+    // PI = 3;  // 报错！Assignment to constant variable
+
+    // ========== 块级作用域演示 ==========
+    {
+        let blockVar = "我在块里，外面看不到我";
+        var notBlockVar = "我是 var，外面看得到我";
+        console.log("块内:", blockVar);     // 正常输出
+        console.log("块内:", notBlockVar);  // 正常输出
+    }
+    // console.log(blockVar);    // 报错！blockVar is not defined
+    console.log("块外 var:", notBlockVar);  // 正常输出，var 不受块限制
+
+    // ========== 暂时性死区演示 ==========
+    // 下面的代码会报错：
+    // console.log(tdzVar);  // ReferenceError: Cannot access 'tdzVar' before initialization
+    let tdzVar = "现在可以访问了";
+
+    // ========== 基本类型 vs 引用类型 ==========
+    // 基本类型（Primitive）：直接存值
+    //   number, string, boolean, null, undefined, symbol, bigint
+    // 引用类型（Reference）：存的是地址，指向堆内存中的数据
+    //   object, array, function
+
+    let a = 10;        // 基本类型，a 里存的就是 10
+    let b = a;         // b 复制了 a 的值，b 也是 10
+    b = 20;            // 改 b 不影响 a
+    console.log("a =", a);  // 10（没变）
+
+    let obj1 = { name: "小明" };  // 引用类型，obj1 存的是地址
+    let obj2 = obj1;               // obj2 复制的是同一个地址（浅拷贝）
+    obj2.name = "小红";            // 通过 obj2 改了对象
+    console.log("obj1.name =", obj1.name);  // "小红"（也变了！因为指向同一个对象）
+
+    // 如果想真正复制一个对象（深拷贝），可以用展开运算符：
+    let obj3 = { ...obj1 };  // 展开运算符创建了一个新对象
+    obj3.name = "小刚";
+    console.log("obj1.name =", obj1.name);  // "小红"（没受影响）
+
+    // ========== typeof 运算符 ==========
+    // typeof 用来检查一个值的类型，返回类型名称的字符串
+    function demoVariables() {
+        let output = "===== typeof 类型检查 =====\n";
+        output += "42          → " + typeof 42 + "\n";           // "number"
+        output += "'hello'     → " + typeof 'hello' + "\n";     // "string"
+        output += "true        → " + typeof true + "\n";        // "boolean"
+        output += "undefined   → " + typeof undefined + "\n";   // "undefined"
+        output += "null        → " + typeof null + "\n";        // "object"（历史 bug，记住就好）
+        output += "[1,2,3]     → " + typeof [1,2,3] + "\n";    // "object"（数组也是对象！）
+        output += "{}          → " + typeof {} + "\n";         // "object"
+        output += "function(){}→ " + typeof function(){} + "\n";// "function"
+
+        output += "\n===== let vs const vs var =====\n";
+        output += "let   → 块级作用域，可修改，推荐日常使用\n";
+        output += "const → 块级作用域，不可重新赋值，推荐声明常量\n";
+        output += "var   → 函数作用域，有变量提升，旧代码中常见，新代码不推荐\n";
+
+        output += "\n===== 基本类型 vs 引用类型 =====\n";
+        output += "基本类型（存值）: number, string, boolean, null, undefined\n";
+        output += "引用类型（存地址）: object, array, function\n";
+        output += "基本类型赋值 = 复制值，互不影响\n";
+        output += "引用类型赋值 = 复制地址，改一个影响另一个\n";
+
+        document.getElementById("var-output").innerText = output;
+    }
+</script>
+
+
+<!-- ============================================= -->
+<!-- 第二节：函数与箭头函数 -->
+<!-- ============================================= -->
+<!--
+    【函数是什么？】
+    函数就是一段可以重复使用的代码。
+    你写好一次，之后每次需要的时候调用它就行，不用重写。
+
+    生活类比：函数就像微波炉。
+    - 你把食物放进去（传参数）
+    - 按下按钮（调用函数）
+    - 拿出加热好的食物（返回结果）
+
+    【三种定义方式】
+    1. 函数声明：function greet(name) { ... }
+    2. 函数表达式：const greet = function(name) { ... }
+    3. 箭头函数：const greet = (name) => { ... }
+
+    【箭头函数】
+    ES6 引入的简写形式，特别适合短小的回调函数。
+    - 只有一个参数时可以省略括号：name => name.toUpperCase()
+    - 只有一行返回时可以省略 {} 和 return：(a, b) => a + b
+    - 没有自己的 this（继承外层的 this），这在事件处理中很重要
+
+    【默认参数】
+    调用函数时如果没传某个参数，就用默认值。
+    定义时写：function greet(name = "同学") { ... }
+
+    【rest 参数（...args）】
+    当你不确定调用者会传多少个参数时，用 ...args 把它们收集成数组。
+    function sum(...args) { return args.reduce((a, b) => a + b, 0); }
+    sum(1, 2, 3, 4)  // args = [1, 2, 3, 4]，结果 10
+
+    【回调函数】
+    把一个函数当作参数传给另一个函数，就是"回调"。
+    按钮的 onclick、数组的 map/filter 都是回调。
+    函数在 JS 里是"一等公民"——可以当变量传来传去。
+-->
+
+<h2>二、函数与箭头函数</h2>
+
+<div class="demo-box">
+    <button onclick="demoFunction()">演示函数</button>
+    <div id="func-output" class="result-area"></div>
+</div>
+
+<script>
+    // ========== 1. 函数声明 ==========
+    // 最传统的写法，有"函数提升"（在声明前也能调用）
+    function greet(name) {
+        return "你好，" + name + "！";
+    }
+
+    // ========== 2. 函数表达式 ==========
+    // 把函数赋值给变量，没有"函数提升"
+    const greetFormal = function(name) {
+        return "您好，" + name + "先生/女士！";
+    };
+
+    // ========== 3. 箭头函数 ==========
+    // 最简洁的写法，特别适合短回调
+    // 只有一个参数可以省略括号，只有一行可以省略 {} 和 return
+    const add = (a, b) => a + b;
+
+    // 多行箭头函数需要 {} 和 return
+    const greetArrow = (name) => {
+        let msg = "嘿！" + name;
+        return msg;
+    };
+
+    // ========== 4. 默认参数 ==========
+    // 调用时没传该参数，就用默认值
+    function createProfile(name, age = 18, city = "未知") {
+        return name + ", " + age + "岁, " + city;
+    }
+
+    // ========== 5. rest 参数（...args） ==========
+    // 把不定数量的参数收集成数组
+    function sum(...numbers) {
+        // numbers 是一个数组，可以用数组的所有方法
+        let total = 0;
+        for (let num of numbers) {
+            total += num;
+        }
+        return total;
+    }
+
+    // 更优雅的写法：用 reduce
+    const sumElegant = (...numbers) => numbers.reduce((acc, cur) => acc + cur, 0);
+
+    // ========== 6. 回调函数 ==========
+    // 把函数当作参数传给另一个函数
+    // 你已经在用回调了！button 的 onclick 就是回调
+    function doTwice(callback) {
+        callback();
+        callback();
+    }
+
+    // 函数作为值传递
+    // 函数在 JS 里跟数字、字符串一样，可以赋值、传参、当返回值
+    const operations = {
+        double: (n) => n * 2,
+        triple: (n) => n * 3,
+        square: (n) => n * n
+    };
+
+    function demoFunction() {
+        let output = "===== 函数声明 =====\n";
+        output += "greet('小明') → " + greet("小明") + "\n";
+        output += "greetFormal('小明') → " + greetFormal("小明") + "\n\n";
+
+        output += "===== 箭头函数 =====\n";
+        output += "add(3, 5) → " + add(3, 5) + "\n";
+        output += "greetArrow('小明') → " + greetArrow("小明") + "\n\n";
+
+        output += "===== 默认参数 =====\n";
+        output += "createProfile('小明') → " + createProfile("小明") + "\n";
+        output += "createProfile('小明', 25) → " + createProfile("小明", 25) + "\n";
+        output += "createProfile('小明', 25, '北京') → " + createProfile("小明", 25, "北京") + "\n\n";
+
+        output += "===== rest 参数 =====\n";
+        output += "sum(1,2,3) → " + sum(1, 2, 3) + "\n";
+        output += "sum(1,2,3,4,5) → " + sum(1, 2, 3, 4, 5) + "\n";
+        output += "sumElegant(10,20,30) → " + sumElegant(10, 20, 30) + "\n\n";
+
+        output += "===== 回调函数 =====\n";
+        let callCount = 0;
+        doTwice(() => { callCount++; });
+        output += "doTwice 执行了 " + callCount + " 次回调\n\n";
+
+        output += "===== 函数作为值 =====\n";
+        output += "operations.double(5) → " + operations.double(5) + "\n";
+        output += "operations.triple(5) → " + operations.triple(5) + "\n";
+        output += "operations.square(5) → " + operations.square(5) + "\n";
+
+        document.getElementById("func-output").innerText = output;
+    }
+</script>
+
+
+<!-- ============================================= -->
+<!-- 第三节：对象与解构赋值 -->
+<!-- ============================================= -->
+<!--
+    【对象是什么？】
+    对象用 {} 包裹，里面是"键值对"（key-value pairs）。
+    它用来描述一个东西的多个特征。
+
+    生活类比：对象就像身份证。
+    姓名、性别、出生日期、地址——这些是它的"属性"。
+    能出示、能验证——这些是它的"方法"。
+
+    【this 关键字】
+    this 指向"调用它的那个对象"。
+    在对象的方法里，this 就是这个对象本身。
+    但注意：箭头函数没有自己的 this，它会继承外层的 this。
+
+    【解构赋值】
+    从对象或数组中"拆出"值，赋给变量。
+    比以前一个个写 let name = obj.name 简洁得多。
+    还可以给默认值：const { name = "匿名" } = obj;
+
+    【展开运算符 ...】
+    展开对象/数组的所有属性/元素。
+    常用于：复制对象、合并对象、传参。
+-->
+
+<h2>三、对象与解构赋值</h2>
+
+<div class="demo-box">
+    <button onclick="demoObject()">演示对象</button>
+    <div id="obj-output" class="result-area"></div>
+</div>
+
+<script>
+    // ========== 1. 创建对象 ==========
+    // 用字面量 {} 创建，键值对用逗号分隔
+    const person = {
+        name: "小明",        // 键是字符串，值可以是任意类型
+        age: 18,
+        hobbies: ["编程", "游戏", "篮球"],
+        isStudent: true
+    };
+
+    // ========== 2. 访问属性 ==========
+    // 点语法：obj.key
+    // 方括号语法：obj["key"]（键名有特殊字符或是变量时必须用这种）
+
+    // ========== 3. 修改属性 ==========
+    // 直接赋值即可：obj.key = newValue
+
+    // ========== 4. 方法（对象里的函数） ==========
+    const calculator = {
+        result: 0,          // 初始值
+
+        add(n) {            // 方法的简写形式
+            this.result += n;  // this 指向 calculator 这个对象
+            return this;       // 返回 this 可以实现链式调用
+        },
+
+        subtract(n) {
+            this.result -= n;
+            return this;
+        },
+
+        multiply(n) {
+            this.result *= n;
+            return this;
+        },
+
+        reset() {
+            this.result = 0;
+            return this;
+        },
+
+        getResult() {
+            return this.result;
+        }
+    };
+
+    // ========== 5. 解构赋值 ==========
+    // 从对象中提取值，赋给同名变量
+    const { name, age, hobbies } = person;
+    // 等价于：
+    // const name = person.name;
+    // const age = person.age;
+    // const hobbies = person.hobbies;
+
+    // 重命名：提取出来的同时给变量换个名
+    const { name: personName, age: personAge } = person;
+
+    // 给默认值：如果属性不存在，用默认值
+    const { name: n, gender = "未知" } = person;
+    // person 没有 gender 属性，所以 gender = "未知"
+
+    // 数组解构：按位置提取
+    const [first, second, third] = ["苹果", "香蕉", "橘子"];
+    // first = "苹果", second = "香蕉", third = "橘子"
+
+    // 跳过元素
+    const [, , onlyThird] = [10, 20, 30];
+    // onlyThird = 30
+
+    // 剩余元素
+    const [head, ...tail] = [1, 2, 3, 4, 5];
+    // head = 1, tail = [2, 3, 4, 5]
+
+    // ========== 6. 展开运算符 ==========
+    // 复制对象（浅拷贝）
+    const personCopy = { ...person };
+
+    // 合并对象（后面的覆盖前面的同名属性）
+    const defaults = { theme: "light", fontSize: 14, lang: "zh" };
+    const userSettings = { theme: "dark", fontSize: 18 };
+    const finalSettings = { ...defaults, ...userSettings };
+    // finalSettings = { theme: "dark", fontSize: 18, lang: "zh" }
+
+    // 展开数组
+    const arr1 = [1, 2, 3];
+    const arr2 = [4, 5, 6];
+    const merged = [...arr1, ...arr2];
+    // merged = [1, 2, 3, 4, 5, 6]
+
+    function demoObject() {
+        let output = "===== 对象基础 =====\n";
+        output += "person.name → " + person.name + "\n";
+        output += "person['age'] → " + person["age"] + "\n";
+        output += "person.hobbies → " + person.hobbies + "\n\n";
+
+        // 修改属性
+        person.age = 19;
+        output += "修改后 person.age → " + person.age + "\n\n";
+
+        // 添加属性
+        person.email = "xiaoming@example.com";
+        output += "新增 person.email → " + person.email + "\n\n";
+
+        output += "===== 方法与链式调用 =====\n";
+        // 链式调用：每个方法返回 this，就可以连续调用
+        let result = calculator.reset().add(10).subtract(3).multiply(2).getResult();
+        output += "calculator.reset().add(10).subtract(3).multiply(2) → " + result + "\n\n";
+
+        output += "===== 解构赋值 =====\n";
+        output += "对象解构: { name, age } = person → " + name + ", " + age + "\n";
+        output += "重命名: { name: personName } → " + personName + "\n";
+        output += "默认值: { gender = '未知' } → " + gender + "\n";
+        output += "数组解构: [first, second, third] → " + first + ", " + second + ", " + third + "\n";
+        output += "剩余元素: [head, ...tail] → head=" + head + ", tail=" + tail + "\n\n";
+
+        output += "===== 展开运算符 =====\n";
+        output += "合并设置: { ...defaults, ...userSettings } → " + JSON.stringify(finalSettings) + "\n";
+        output += "合并数组: [...arr1, ...arr2] → " + merged + "\n";
+
+        document.getElementById("obj-output").innerText = output;
+    }
+</script>
+
+
+<!-- ============================================= -->
+<!-- 第四节：数组与高阶方法 -->
+<!-- ============================================= -->
+<!--
+    【数组是什么？】
+    数组是有序的数据集合，用 [] 包裹，元素用逗号分隔。
+    每个元素有编号（从 0 开始），可以通过编号访问。
+
+    生活类比：数组就像一排快递柜。
+    - 每个柜子有编号（索引）
+    - 你可以存东西、取东西、数有多少个柜子
+
+    【高阶方法】
+    高阶方法就是"接收函数作为参数"的数组方法。
+    它们是 JS 最强大的工具之一，让你用一行代码代替一个 for 循环。
+
+    常用高阶方法：
+    - forEach：遍历数组，对每个元素执行操作（无返回值）
+    - map：映射，对每个元素做变换，返回新数组
+    - filter：过滤，保留满足条件的元素，返回新数组
+    - reduce：归并，把数组"压缩"成一个值
+    - find：找到第一个满足条件的元素
+    - includes：检查数组是否包含某个值
+
+    【链式调用】
+    因为 map/filter 等方法返回的还是数组，所以可以连续调用。
+    arr.filter(...).map(...).forEach(...)  // 先筛选、再变换、再遍历
+-->
+
+<h2>四、数组与高阶方法</h2>
+
+<div class="demo-box">
+    <button onclick="demoArray()">演示数组</button>
+    <div id="array-output" class="result-area"></div>
+</div>
+
+<script>
+    // ========== 1. 基本操作 ==========
+    // 创建数组
+    let fruits = ["苹果", "香蕉", "橘子"];
+
+    // 访问元素（索引从 0 开始）
+    // fruits[0]  → "苹果"
+    // fruits[2]  → "橘子"
+    // fruits[fruits.length - 1]  → 最后一个元素
+
+    // ========== 2. 增删方法 ==========
+    // push：在末尾添加元素（最常用）
+    // pop：删除末尾元素
+    // unshift：在开头添加元素
+    // shift：删除开头元素
+    // splice：万能方法，可以删除、插入、替换任意位置的元素
+
+    // ========== 3. 高阶方法详解 ==========
+
+    // forEach：遍历，没有返回值
+    // 相当于 for 循环的简写
+    // fruits.forEach((item, index) => { console.log(index, item); });
+
+    // map：映射，返回新数组（不修改原数组）
+    // 对每个元素做变换，返回变换后的新数组
+    // [1, 2, 3].map(n => n * 2)  → [2, 4, 6]
+
+    // filter：过滤，返回满足条件的元素组成的新数组
+    // [1, 2, 3, 4, 5].filter(n => n > 3)  → [4, 5]
+
+    // reduce：归并，把数组"压缩"成一个值
+    // 参数：(累加器, 当前值) => 新的累加器，初始值
+    // [1, 2, 3, 4].reduce((acc, cur) => acc + cur, 0)  → 10
+
+    // find：找到第一个满足条件的元素（返回元素本身，不是数组）
+    // [1, 2, 3, 4].find(n => n > 2)  → 3
+
+    // includes：检查是否包含某个值（返回 true/false）
+    // [1, 2, 3].includes(2)  → true
+
+    // some：至少有一个元素满足条件（返回 true/false）
+    // every：所有元素都满足条件（返回 true/false）
+
+    // sort：排序（注意：默认按字符串排序！数字排序需要传比较函数）
+    // [3, 1, 2].sort((a, b) => a - b)  → [1, 2, 3]
+
+    // ========== 4. 数组解构 ==========
+    const [x, y, z] = [10, 20, 30];  // x=10, y=20, z=30
+    const [first1, ...rest] = [1, 2, 3, 4, 5];  // first1=1, rest=[2,3,4,5]
+
+    // ========== 5. 其他实用方法 ==========
+    // indexOf：查找元素的索引（找不到返回 -1）
+    // join：把数组拼成字符串
+    // slice：截取子数组（不修改原数组）
+    // concat：合并数组
+
+    function demoArray() {
+        let output = "===== 基本操作 =====\n";
+        let colors = ["红", "绿", "蓝"];
+        output += "原数组: " + colors + "\n";
+        output += "长度: " + colors.length + "\n";
+        output += "第一个: " + colors[0] + "\n";
+        output += "最后一个: " + colors[colors.length - 1] + "\n\n";
+
+        output += "===== 增删方法 =====\n";
+        colors.push("黄");
+        output += "push('黄') 后: " + colors + "\n";
+        let popped = colors.pop();
+        output += "pop() 弹出: " + popped + "，剩余: " + colors + "\n";
+        colors.unshift("紫");
+        output += "unshift('紫') 后: " + colors + "\n";
+        let shifted = colors.shift();
+        output += "shift() 弹出: " + shifted + "，剩余: " + colors + "\n";
+        // splice(起始索引, 删除个数, ...插入的元素)
+        colors.splice(1, 1, "橙", "粉");
+        output += "splice(1,1,'橙','粉') 后: " + colors + "\n\n";
+
+        // 用新数组演示高阶方法
+        let nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+        output += "===== forEach 遍历 =====\n";
+        let forEachResult = [];
+        nums.forEach((num, index) => {
+            if (index < 5) forEachResult.push("nums[" + index + "]=" + num);
+        });
+        output += forEachResult.join(", ") + " ...\n\n";
+
+        output += "===== map 映射 =====\n";
+        let doubled = nums.map(n => n * 2);
+        output += nums + " .map(n => n * 2)\n";
+        output += "→ " + doubled + "\n\n";
+
+        output += "===== filter 过滤 =====\n";
+        let evens = nums.filter(n => n % 2 === 0);
+        output += nums + " .filter(n => n % 2 === 0)\n";
+        output += "→ 偶数: " + evens + "\n\n";
+
+        output += "===== reduce 归并 =====\n";
+        let sum = nums.reduce((acc, cur) => acc + cur, 0);
+        output += nums + " .reduce(累加)\n";
+        output += "→ 总和: " + sum + "\n\n";
+
+        output += "===== find 查找 =====\n";
+        let found = nums.find(n => n > 5);
+        output += nums + " .find(n => n > 5)\n";
+        output += "→ 第一个大于5的: " + found + "\n\n";
+
+        output += "===== includes 包含 =====\n";
+        output += nums + " .includes(5) → " + nums.includes(5) + "\n";
+        output += nums + " .includes(99) → " + nums.includes(99) + "\n\n";
+
+        output += "===== 链式调用 =====\n";
+        // 先筛选偶数，再乘以3，再求和
+        let chainResult = nums
+            .filter(n => n % 2 === 0)    // [2, 4, 6, 8, 10]
+            .map(n => n * 3)              // [6, 12, 18, 24, 30]
+            .reduce((acc, cur) => acc + cur, 0);  // 90
+        output += "偶数×3之和: " + nums + "\n";
+        output += ".filter(偶数).map(×3).reduce(求和)\n";
+        output += "→ " + chainResult + "\n\n";
+
+        output += "===== some & every =====\n";
+        output += "有大于8的？ " + nums.some(n => n > 8) + "\n";
+        output += "都大于0？ " + nums.every(n => n > 0) + "\n\n";
+
+        output += "===== sort 排序 =====\n";
+        let messy = [30, 1, 100, 4, 21];
+        output += "原数组: " + messy + "\n";
+        output += "sort() 默认: " + [...messy].sort() + "（按字符串排，不对！）\n";
+        output += "sort((a,b)=>a-b): " + [...messy].sort((a, b) => a - b) + "（正确）\n\n";
+
+        output += "===== 实用方法 =====\n";
+        let arr = ["a", "b", "c", "d", "e"];
+        output += "indexOf('c') → " + arr.indexOf("c") + "\n";
+        output += "join('-') → " + arr.join("-") + "\n";
+        output += "slice(1, 3) → " + arr.slice(1, 3) + "（不改原数组）\n";
+
+        document.getElementById("array-output").innerText = output;
+    }
+</script>
+
+
+<!-- ============================================= -->
+<!-- 第五节：DOM 操作 -->
+<!-- ============================================= -->
+<!--
+    【DOM 是什么？】
+    DOM（Document Object Model）= 文档对象模型。
+    浏览器把 HTML 文档解析成一棵"树"，每个标签都是树上的一个"节点"。
+    JavaScript 通过 DOM API 来操控这棵树——增删改查页面上的任何元素。
+
+    生活类比：DOM 就像一栋大楼的遥控器。
+    - querySelector = 精确定位某个房间
+    - innerHTML = 改变房间里的内容
+    - classList = 给房间换装修风格
+    - createElement = 新建一个房间
+    - removeChild = 拆掉一个房间
+
+    【选择元素的方法】
+    - getElementById("id")：通过 ID 选（返回单个元素）
+    - querySelector("选择器")：CSS 选择器，返回第一个匹配的元素
+    - querySelectorAll("选择器")：返回所有匹配的元素（NodeList）
+
+    【修改内容】
+    - innerHTML：可以解析 HTML 标签（有 XSS 风险）
+    - textContent / innerText：只处理纯文本（更安全）
+
+    【修改样式】
+    - element.style.color = "red"：直接改行内样式
+    - element.classList.add/remove/toggle("类名")：操作 CSS 类（推荐）
+
+    【创建和删除元素】
+    - createElement("标签名")：创建新元素
+    - appendChild(元素)：添加子元素
+    - removeChild(元素)：删除子元素
+    - insertBefore(新元素, 参考元素)：在指定位置前插入
+-->
+
+<h2>五、DOM 操作</h2>
+
+<!-- 选择器演示区域 -->
+<div class="demo-box">
+    <p id="select-demo" class="highlight">我是一个段落（id=select-demo）</p>
+    <p class="highlight">我是第二个段落（class=highlight）</p>
+    <p>我是第三个段落（没有特殊类名）</p>
+    <button onclick="demoSelector()">演示选择器</button>
+    <div id="selector-output" class="result-area"></div>
+</div>
+
+<!-- 内容修改演示区域 -->
+<div class="demo-box">
+    <p id="content-demo">这是原始文字</p>
+    <button onclick="changeText()">改文字（textContent）</button>
+    <button onclick="changeHTML()">改HTML（innerHTML）</button>
+    <button onclick="resetContent()">重置</button>
+</div>
+
+<!-- 样式修改演示区域 -->
+<div class="demo-box">
+    <div id="style-demo" style="width: 200px; height: 60px; background-color: #4CAF50; color: white; display: flex; align-items: center; justify-content: center; margin: 10px 0; transition: all 0.3s;">
+        样式演示区
+    </div>
+    <button onclick="changeInlineStyle()">行内样式</button>
+    <button onclick="toggleClass()">切换 CSS 类</button>
+    <button onclick="resetStyle()">重置</button>
+</div>
+
+<style>
+    .box-highlight {
+        background-color: #ff6b6b !important;
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+</style>
+
+<!-- 创建/删除元素演示区域 -->
+<div class="demo-box">
+    <ul id="item-list">
+        <li>列表项 1</li>
+        <li>列表项 2</li>
+        <li>列表项 3</li>
+    </ul>
+    <button onclick="addItem()">添加项目</button>
+    <button onclick="removeLastItem()">删除最后一个</button>
+    <button onclick="clearAll()">清空所有</button>
+</div>
+
+<script>
+    // ========== 1. 选择元素 ==========
+
+    // getElementById：通过 ID 选（最快，返回单个元素）
+    // const el = document.getElementById("select-demo");
+
+    // querySelector：CSS 选择器，返回第一个匹配
+    // const el = document.querySelector("#select-demo");
+    // const el = document.querySelector(".highlight");
+
+    // querySelectorAll：返回所有匹配的 NodeList（类似数组）
+    // const els = document.querySelectorAll(".highlight");
+
+    function demoSelector() {
+        let output = "===== 选择器演示 =====\n";
+
+        // getElementById
+        const byId = document.getElementById("select-demo");
+        output += "getElementById('select-demo') → " + byId.innerText + "\n";
+
+        // querySelector（第一个匹配）
+        const first = document.querySelector(".highlight");
+        output += "querySelector('.highlight') → " + first.innerText + "\n";
+
+        // querySelectorAll（所有匹配）
+        const all = document.querySelectorAll(".highlight");
+        output += "querySelectorAll('.highlight') → 共 " + all.length + " 个\n";
+        all.forEach((el, i) => {
+            output += "  [" + i + "] " + el.innerText + "\n";
+        });
+
+        output += "\n建议：优先用 querySelector/querySelectorAll，语法统一且强大";
+
+        document.getElementById("selector-output").innerText = output;
+    }
+
+    // ========== 2. 修改内容 ==========
+
+    function changeText() {
+        // textContent：纯文本，不解析 HTML 标签（安全）
+        document.getElementById("content-demo").textContent = "文字被 textContent 修改了！<b>粗体不会生效</b>";
+    }
+
+    function changeHTML() {
+        // innerHTML：可以解析 HTML 标签（注意 XSS 风险）
+        // 如果内容来自用户输入，一定要先转义！
+        document.getElementById("content-demo").innerHTML = "文字被 innerHTML 修改了！<b>粗体生效了</b>";
+    }
+
+    function resetContent() {
+        document.getElementById("content-demo").textContent = "这是原始文字";
+    }
+
+    // ========== 3. 修改样式 ==========
+
+    function changeInlineStyle() {
+        let el = document.getElementById("style-demo");
+        // style 属性直接修改行内样式（驼峰命名：font-size → fontSize）
+        el.style.backgroundColor = "#2196F3";
+        el.style.fontSize = "20px";
+        el.style.borderRadius = "10px";
+        el.textContent = "行内样式已修改";
+    }
+
+    let classActive = false;
+    function toggleClass() {
+        let el = document.getElementById("style-demo");
+        // classList 操作 CSS 类（推荐方式，样式和逻辑分离）
+        el.classList.toggle("box-highlight");  // 有就删，没有就加
+        classActive = !classActive;
+        el.textContent = classActive ? "CSS 类已添加" : "CSS 类已移除";
+    }
+
+    function resetStyle() {
+        let el = document.getElementById("style-demo");
+        el.style.backgroundColor = "#4CAF50";
+        el.style.fontSize = "";
+        el.style.borderRadius = "";
+        el.classList.remove("box-highlight");
+        el.textContent = "样式演示区";
+        classActive = false;
+    }
+
+    // ========== 4. 创建和删除元素 ==========
+
+    let itemCount = 3;  // 初始有 3 个
+
+    function addItem() {
+        itemCount++;
+        // createElement：创建新元素
+        let newLi = document.createElement("li");
+        // 设置内容
+        newLi.textContent = "列表项 " + itemCount;
+        // appendChild：添加到父元素的末尾
+        document.getElementById("item-list").appendChild(newLi);
+    }
+
+    function removeLastItem() {
+        let list = document.getElementById("item-list");
+        // 先检查有没有子元素
+        if (list.children.length > 0) {
+            // removeChild：删除指定子元素
+            list.removeChild(list.lastElementChild);
+            itemCount--;
+        }
+    }
+
+    function clearAll() {
+        let list = document.getElementById("item-list");
+        // 方法一：循环删除
+        // while (list.firstChild) { list.removeChild(list.firstChild); }
+        // 方法二：直接清空 innerHTML（简单粗暴）
+        list.innerHTML = "";
+        itemCount = 0;
+    }
+</script>
+
+
+<!-- ============================================= -->
+<!-- 第六节：类型转换与运算 -->
+<!-- ============================================= -->
+<!--
+    【为什么需要了解类型转换？】
+    JS 是弱类型语言，变量不需要声明类型，而且会自动做类型转换。
+    这种"自动"有时候很方便，有时候是 bug 的根源。
+    理解类型转换，才能避免写出 "1" + 1 = "11" 这种诡异结果。
+
+    【== vs ===】
+    ==（宽松相等）：会自动类型转换后再比较
+    ===（严格相等）：类型不同直接 false，不会转换
+    建议：永远用 ===，避免意外
+
+    【隐式类型转换】
+    JS 在某些场景下会悄悄做类型转换：
+    - 字符串和数字做运算：'5' - 1 = 4（减法会把字符串转数字）
+    - 但 '5' + 1 = '51'（加法优先当字符串拼接）
+    - 布尔转数字：true → 1, false → 0
+    - 转布尔为 false 的值（falsy）：0, "", null, undefined, NaN
+
+    【模板字符串】
+    用反引号 ` 包裹，${} 里面可以写变量和表达式。
+    比字符串拼接优雅太多。
+-->
+
+<h2>六、类型转换与运算</h2>
+
+<div class="demo-box">
+    <button onclick="demoTypeConversion()">演示类型转换</button>
+    <div id="convert-output" class="result-area"></div>
+</div>
+
+<script>
+    // ========== 1. == vs === ==========
+    // == 会做类型转换，=== 不会
+    // "1" == 1   → true（字符串 "1" 被转成数字 1）
+    // "1" === 1  → false（类型不同，直接 false）
+    // null == undefined  → true
+    // null === undefined → false
+
+    // ========== 2. 隐式类型转换 ==========
+    // 加法 +：有字符串就拼接
+    //   "5" + 1 → "51"
+    //   "5" + true → "5true"
+    // 其他运算 - * / %：转数字
+    //   "5" - 1 → 4
+    //   "5" * 2 → 10
+    //   "abc" - 1 → NaN（Not a Number）
+
+    // ========== 3. 显式类型转换 ==========
+    // Number("123")    → 123
+    // Number("abc")    → NaN
+    // Number(true)     → 1
+    // Number("")       → 0
+    // parseInt("42px") → 42（解析到非数字字符为止）
+    // parseFloat("3.14abc") → 3.14
+    // String(123)      → "123"
+    // String(true)     → "true"
+    // Boolean(0)       → false
+    // Boolean("")      → false
+    // Boolean("hello") → true
+
+    // ========== 4. Falsy 值（布尔转换为 false 的值） ==========
+    // 以下值转布尔都是 false：
+    // 0, -0, 0n, "", null, undefined, NaN
+    // 其他所有值转布尔都是 true（包括 "0", "false", [] , {}）
+
+    // ========== 5. 模板字符串 ==========
+    // 用反引号 `` 包裹，${} 里可以放变量和表达式
+    let userName = "小明";
+    let score = 95;
+    // 旧写法（拼接）："你好，" + userName + "，你的分数是 " + score
+    // 新写法（模板）：`你好，${userName}，你的分数是 ${score}`
+    // 还可以在 ${} 里写表达式：`及格了吗？${score >= 60 ? '是' : '否'}`
+
+    function demoTypeConversion() {
+        let output = "===== == vs === =====\n";
+        output += "'1' == 1    → " + ("1" == 1) + "（宽松，转类型）\n";
+        output += "'1' === 1   → " + ("1" === 1) + "（严格，不转类型）\n";
+        output += "0 == ''     → " + (0 == "") + "\n";
+        output += "0 === ''    → " + (0 === "") + "\n";
+        output += "null == undefined  → " + (null == undefined) + "\n";
+        output += "null === undefined → " + (null === undefined) + "\n";
+        output += "\n建议：永远用 ===，避免类型转换的坑\n\n";
+
+        output += "===== 隐式类型转换 =====\n";
+        output += "'5' + 1     → " + ('5' + 1) + "（+ 号有字符串就拼接）\n";
+        output += "'5' - 1     → " + ('5' - 1) + "（- 号转数字）\n";
+        output += "'5' * 2     → " + ('5' * 2) + "\n";
+        output += "'abc' - 1   → " + ('abc' - 1) + "（转不了就是 NaN）\n";
+        output += "true + 1    → " + (true + 1) + "（true→1）\n";
+        output += "false + 1   → " + (false + 1) + "（false→0）\n\n";
+
+        output += "===== 显式转换 =====\n";
+        output += "Number('123')     → " + Number("123") + "\n";
+        output += "Number('abc')     → " + Number("abc") + "\n";
+        output += "Number(true)      → " + Number(true) + "\n";
+        output += "parseInt('42px')  → " + parseInt("42px") + "\n";
+        output += "parseFloat('3.14abc') → " + parseFloat("3.14abc") + "\n";
+        output += "String(123)       → " + String(123) + "\n";
+        output += "Boolean(0)        → " + Boolean(0) + "\n";
+        output += "Boolean('')       → " + Boolean("") + "\n";
+        output += "Boolean('hello')  → " + Boolean("hello") + "\n\n";
+
+        output += "===== Falsy 值（转布尔为 false） =====\n";
+        let falsyValues = [0, -0, "", null, undefined, NaN, false];
+        output += "以下值转布尔都是 false：\n";
+        falsyValues.forEach(v => {
+            output += "  " + JSON.stringify(v) + " → " + Boolean(v) + "\n";
+        });
+        output += "\n注意这些是 true：\n";
+        output += "  Boolean('0')     → " + Boolean("0") + "（非空字符串）\n";
+        output += "  Boolean('false') → " + Boolean("false") + "\n";
+        output += "  Boolean([])      → " + Boolean([]) + "（空数组也是 true）\n\n";
+
+        output += "===== 模板字符串 =====\n";
+        let name = "小明";
+        let age = 18;
+        let city = "北京";
+        output += "旧写法: '你好，' + name + '，' + age + '岁'\n";
+        output += "→ 你好，" + name + "，" + age + "岁\n\n";
+        output += "新写法: `你好，${name}，${age}岁，来自${city}`\n";
+        output += "→ " + `你好，${name}，${age}岁，来自${city}` + "\n\n";
+        output += "表达式: `${name}今年${age}岁，${age >= 18 ? '已成年' : '未成年'}`\n";
+        output += "→ " + `${name}今年${age}岁，${age >= 18 ? '已成年' : '未成年'}` + "\n";
+
+        document.getElementById("convert-output").innerText = output;
+    }
+</script>
+
+
+<!-- ============================================= -->
+<!-- 练习题 -->
+<!-- ============================================= -->
+
+<h1>练习题</h1>
+
+<!--
+    练习1：计算器
+        - 两个输入框
+        - 加减乘除按钮
+        - 显示结果
+
+    练习2：计数器
+        - 显示数字
+        - 增加、减少、重置按钮
+
+    练习3：数组练习
+        - 输入数字，添加到数组
+        - 显示数组内容
+        - 计算总和、平均值、最大值
+-->
+
+<div class="demo-box">
+    <h2>练习1：计算器</h2>
+    <input type="number" id="calc1" placeholder="数字1" value="10">
+    <input type="number" id="calc2" placeholder="数字2" value="5">
+    <br>
+    <button onclick="calculate('+')">+</button>
+    <button onclick="calculate('-')">-</button>
+    <button onclick="calculate('*')">*</button>
+    <button onclick="calculate('/')">/</button>
+    <p id="calc-result">结果:</p>
+</div>
+
+<script>
+    function calculate(op) {
+        let a = parseFloat(document.getElementById("calc1").value);
+        let b = parseFloat(document.getElementById("calc2").value);
+        let result;
+
+        switch(op) {
+            case '+': result = a + b; break;
+            case '-': result = a - b; break;
+            case '*': result = a * b; break;
+            case '/': result = b !== 0 ? a / b : "错误：除数不能为零"; break;
+        }
+
+        document.getElementById("calc-result").innerText = "结果: " + a + " " + op + " " + b + " = " + result;
+    }
+</script>
+
+<div class="demo-box">
+    <h2>练习2：计数器</h2>
+    <p id="counter-display" style="font-size: 48px; text-align: center;">0</p>
+    <div style="text-align: center;">
+        <button onclick="updateCounter(-1)">-</button>
+        <button onclick="updateCounter(0)">重置</button>
+        <button onclick="updateCounter(1)">+</button>
+    </div>
+</div>
+
+<script>
+    let counter = 0;
+
+    function updateCounter(value) {
+        if (value === 0) {
+            counter = 0;
+        } else {
+            counter += value;
+        }
+        document.getElementById("counter-display").innerText = counter;
+    }
+</script>
+
+<div class="demo-box">
+    <h2>练习3：数组练习</h2>
+    <input type="number" id="num-input" placeholder="输入数字" value="0">
+    <button onclick="addToArray()">添加到数组</button>
+    <button onclick="clearArray()">清空数组</button>
+    <div id="array-exercise-output" class="result-area"></div>
+</div>
+
+<script>
+    let exerciseArr = [];
+
+    function addToArray() {
+        let num = parseFloat(document.getElementById("num-input").value);
+        if (isNaN(num)) {
+            alert("请输入有效数字");
+            return;
+        }
+        exerciseArr.push(num);
+        updateArrayDisplay();
+    }
+
+    function clearArray() {
+        exerciseArr = [];
+        updateArrayDisplay();
+    }
+
+    function updateArrayDisplay() {
+        let output = document.getElementById("array-exercise-output");
+        if (exerciseArr.length === 0) {
+            output.innerText = "数组为空，请添加数字";
+            return;
+        }
+
+        let sum = exerciseArr.reduce((acc, cur) => acc + cur, 0);
+        let avg = (sum / exerciseArr.length).toFixed(2);
+        let max = Math.max(...exerciseArr);
+        let min = Math.min(...exerciseArr);
+
+        let text = "数组: [" + exerciseArr.join(", ") + "]\n";
+        text += "长度: " + exerciseArr.length + "\n";
+        text += "总和: " + sum + "\n";
+        text += "平均值: " + avg + "\n";
+        text += "最大值: " + max + "\n";
+        text += "最小值: " + min + "\n";
+        text += "偶数: [" + exerciseArr.filter(n => n % 2 === 0).join(", ") + "]\n";
+        text += "奇数: [" + exerciseArr.filter(n => n % 2 !== 0).join(", ") + "]";
+
+        output.innerText = text;
+    }
+</script>
+
+<!-- ============================================= -->
+<!-- 课程总结 -->
+<!-- ============================================= -->
+<!--
+核心收获：
+1. 变量与数据类型：
+   - let（可变）、const（不可变），避免使用 var
+   - 基本类型存值，引用类型存地址
+   - typeof 检查类型，null 的 typeof 是 "object"（历史 bug）
+
+2. 函数与箭头函数：
+   - function 声明、箭头函数 =>、默认参数、rest 参数
+   - 函数是一等公民，可以当值传来传去
+   - 箭头函数没有自己的 this
+
+3. 对象与解构赋值：
+   - 对象是键值对的集合，方法是值为函数的属性
+   - 解构赋值 { name, age } = obj 快速提取属性
+   - 展开运算符 ... 可以复制、合并对象和数组
+
+4. 数组与高阶方法：
+   - push/pop/shift/unshift/splice 增删元素
+   - map/filter/reduce/find/forEach 批量处理
+   - 链式调用让代码简洁优雅
+
+5. DOM 操作：
+   - querySelector/querySelectorAll 选择元素
+   - innerHTML/textContent 修改内容
+   - style/classList 修改样式
+   - createElement/appendChild/removeChild 增删元素
+
+6. 类型转换与运算：
+   - 永远用 ===，不用 ==
+   - 了解隐式转换的坑（+ 号拼接优先）
+   - 模板字符串 `Hello ${name}` 比拼接优雅
+
+常见陷阱：
+- == 和 === 的区别（=== 会比较类型，更安全）
+- typeof null === "object"（历史遗留 bug）
+- 引用类型赋值是浅拷贝（改一个影响另一个）
+- "5" + 1 = "51"，但 "5" - 1 = 4（加法拼接优先）
+- 忘记 parseInt/parseFloat 转换输入框的字符串值
+
+下节课预告：
+- 学习事件处理，让按钮点击、键盘输入等交互真正生效
+- addEventListener、事件冒泡、事件委托
+-->
+
+<!-- ============================================= -->
+<!-- 恭喜完成 -->
+<!-- ============================================= -->
+<p style="color: green; font-weight: bold;">
+  恭喜你完成了第 11 课：JavaScript 基础！<br>
+  下节课我们将学习事件处理。
+</p>
+
+</body>
+</html>
